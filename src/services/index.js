@@ -1,5 +1,5 @@
-const FUNCTIONS_PLATFORM_BASE_URL =
-  process.env.REACT_APP_FUNCTIONS_PLATFORM_BASE_URL;
+const BASE_URL =
+  process.env.REACT_APP_BASE_URL;
 const FABRIC = process.env.REACT_APP_FABRIC_NAME;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -9,13 +9,11 @@ export async function getSuppliers({ page, pageSize }) {
     limit: pageSize,
   };
 
-  const suppliers = await invokeFunction("get-suppliers", params);
-  return suppliers;
+  return await invokeFunction("get-suppliers", params);
 }
 
 export async function getSupplierById(id) {
-  const supplier = await invokeFunction("get-supplier-info", { key: id });
-  return supplier;
+  return await invokeFunction("get-supplier-info", {key: id});
 }
 
 export async function getProducts({ page, pageSize }) {
@@ -24,13 +22,11 @@ export async function getProducts({ page, pageSize }) {
     limit: pageSize,
   };
 
-  const products = await invokeFunction("get-products", params);
-  return products;
+  return await invokeFunction("get-products", params);
 }
 
 export async function getProductById(id) {
-  const product = await invokeFunction("get-product-info", { key: id });
-  return product;
+  return await invokeFunction("get-product-info", {key: id});
 }
 
 export async function getOrders({ page, pageSize }) {
@@ -39,13 +35,11 @@ export async function getOrders({ page, pageSize }) {
     limit: pageSize,
   };
 
-  const orders = await invokeFunction("get-orders", params);
-  return orders;
+  return await invokeFunction("get-orders", params);
 }
 
 export async function getOrderById(id) {
-  const order = await invokeFunction("get-order-info", { key: id });
-  return order;
+  return await invokeFunction("get-order-info", {key: id});
 }
 
 export async function getCustomers({ page, pageSize }) {
@@ -54,13 +48,11 @@ export async function getCustomers({ page, pageSize }) {
     limit: pageSize,
   };
 
-  const customers = await invokeFunction("get-customers", params);
-  return customers;
+  return await invokeFunction("get-customers", params);
 }
 
 export async function getCustomerById(id) {
-  const customer = await invokeFunction("get-customer-info", { key: id });
-  return customer;
+  return await invokeFunction("get-customer-info", {key: id});
 }
 
 export async function getEmployees({ page, pageSize }) {
@@ -69,49 +61,34 @@ export async function getEmployees({ page, pageSize }) {
     limit: pageSize,
   };
 
-  const employees = await invokeFunction("get-employees", params);
-  return employees;
+  return await invokeFunction("get-employees", params);
 }
 
 export async function getEmployeeById(id) {
-  const employee = await invokeFunction("get-employee-info", { key: id });
-  return employee;
+  return await invokeFunction("get-employee-info", {key: id});
 }
 
 export async function runSearch(functionName, params) {
-  const encodedParams = encodeURIComponent(JSON.stringify(params).trim());
-
-  const response = await fetch(
-    `${FUNCTIONS_PLATFORM_BASE_URL}/mm-${FABRIC}-${functionName}?bindVars=${encodedParams}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `apiKey ${API_KEY}`,
-        accept: "application/json",
-      },
-      body: "",
-    }
-  );
-
-  const result = await response.json();
-  return result;
+  const data = await GetQueryWorkerData(functionName, params);
+  return data.result;
 }
 
 async function invokeFunction(functionName, params) {
-  const encodedParams = encodeURIComponent(JSON.stringify(params).trim());
+  const data = await GetQueryWorkerData(functionName, params);
+  return data.result[0];
+}
 
+async function GetQueryWorkerData(functionName, params) {
   const response = await fetch(
-    `${FUNCTIONS_PLATFORM_BASE_URL}/mm-${FABRIC}-${functionName}?bindVars=${encodedParams}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `apiKey ${API_KEY}`,
-        accept: "application/json",
-      },
-      body: "",
-    }
+      `${BASE_URL}/_fabric/${FABRIC}/_api/restql/execute/${functionName}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `apiKey ${API_KEY}`,
+          accept: "application/json",
+        },
+        body: JSON.stringify({bindVars: params})
+      }
   );
-
-  const result = await response.json();
-  return result[0];
+  return await response.json();
 }
