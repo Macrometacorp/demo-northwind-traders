@@ -36,7 +36,7 @@ cd demo-northwind-traders
 3\. Create a new `.env.local` file and add your environment variables there.  
 Here is how `.env.local` file should look like:
 ```
-REACT_APP_FUNCTIONS_PLATFORM_BASE_URL=https://macrometa-akamai-ew.macrometa.io
+REACT_APP_BASE_URL=https://play.paas.macrometa.io/
 REACT_APP_FABRIC_NAME=my_fabric
 REACT_APP_API_KEY=...
 ```
