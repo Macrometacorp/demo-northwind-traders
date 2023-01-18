@@ -1,6 +1,6 @@
 {
   "name": "northwind-traders",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "homepage": "https://macrometacorp.github.io/demo-northwind-traders/",
   "dependencies": {
@@ -24,7 +24,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "lint": "eslint src/**/*.js src/**/*.jsx"
   },
   "eslintConfig": {
     "extends": [
@@ -45,7 +46,8 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "prettier": "2.8.3"
   },
   "volta": {
     "node": "18.12.0"

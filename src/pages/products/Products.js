@@ -4,6 +4,8 @@ import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 
 import MyTable from "../../components/MyTable";
 import Pagination from "../../components/Pagination";
+import MyButton from "../../components/MyButton";
+
 import { getProducts } from "../../services";
 
 export function Products() {
@@ -66,8 +68,13 @@ export function Products() {
     get().catch(console.error);
   }, [currentPage]);
 
+  const onSaveProductData = (data) => {
+    console.log(data);
+  };
+
   return (
     <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
+      <MyButton onSave={onSaveProductData} />
       <MyTable title="Products" columns={columns} data={products.data} />
       <Pagination
         currentPage={currentPage}
