@@ -60,10 +60,10 @@ export default function MyButton(props) {
     const submitHandler = (event) => {
         event.preventDefault();
         const newProductData = {
-            category: enteredCategory,
+            category: +enteredCategory,
             name: enteredName,
             quantityPerUnit: enteredQuantityPerUnit,
-            supplier: enteredSupplier,
+            supplier: +enteredSupplier,
             stock: +enteredStock, // enforce a number conversion
             price: +enteredPrice,
         };
