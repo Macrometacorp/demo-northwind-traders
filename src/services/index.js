@@ -108,8 +108,6 @@ export async function GetDocumentData(collection, key) {
 
 async function invokeFunction(functionName, params) {
     const queryData = await GetQueryWorkerData(functionName, params);
-    console.log(queryData);
-    console.log(queryData.result.length)
     let data;
     if (queryData.result.length === 1) {
         data = queryData.result[0];

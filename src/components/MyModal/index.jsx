@@ -11,20 +11,17 @@ import {
     Box,
 } from "@chakra-ui/react";
 
-
 import ProductForm from "../ProductForm";
 
 export default function MyModal(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [modalButtonClicked, setModalButtonClicked] = useState(false)
-
+    const [modalButtonClicked, setModalButtonClicked] = useState(false);
 
     const modalOpened = () => {
         setModalButtonClicked(true);
         onOpen();
     };
-
 
     return (
         <Box>
@@ -39,7 +36,7 @@ export default function MyModal(props) {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>{props.modalTitle}</ModalHeader>
-                    <ModalCloseButton/>
+                    <ModalCloseButton />
                     <ModalBody>
                         <ProductForm
                             closeModal={onClose}
