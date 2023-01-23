@@ -12,41 +12,47 @@ import { Orders, OrderDetail } from "./pages/orders";
 import { Employees, EmployeeDetail } from "./pages/employees";
 import { Customers, CustomerDetail } from "./pages/customers";
 import Search from "./pages/Search";
+import { AuthContextProvider } from "./context/auth-context";
 
 export default function App() {
     return (
         <ChakraProvider theme={theme}>
-            <HashRouter basename="/">
-                <Sidebar>
-                    <Routes>
-                        <Route path="/" exact element={<Home />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/suppliers" element={<Suppliers />} />
-                        <Route
-                            path="/suppliers/:id"
-                            element={<SupplierDetail />}
-                        />
-                        <Route path="/products" element={<Products />} />
-                        <Route
-                            path="/products/:id"
-                            element={<ProductDetail />}
-                        />
-                        <Route path="/orders" element={<Orders />} />
-                        <Route path="/orders/:id" element={<OrderDetail />} />
-                        <Route path="/employees" element={<Employees />} />
-                        <Route
-                            path="/employees/:id"
-                            element={<EmployeeDetail />}
-                        />
-                        <Route path="/customers" element={<Customers />} />
-                        <Route
-                            path="/customers/:id"
-                            element={<CustomerDetail />}
-                        />
-                        <Route path="/search" element={<Search />} />
-                    </Routes>
-                </Sidebar>
-            </HashRouter>
+            <AuthContextProvider>
+                <HashRouter basename="/">
+                    <Sidebar>
+                        <Routes>
+                            <Route path="/" exact element={<Home />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/suppliers" element={<Suppliers />} />
+                            <Route
+                                path="/suppliers/:id"
+                                element={<SupplierDetail />}
+                            />
+                            <Route path="/products" element={<Products />} />
+                            <Route
+                                path="/products/:id"
+                                element={<ProductDetail />}
+                            />
+                            <Route path="/orders" element={<Orders />} />
+                            <Route
+                                path="/orders/:id"
+                                element={<OrderDetail />}
+                            />
+                            <Route path="/employees" element={<Employees />} />
+                            <Route
+                                path="/employees/:id"
+                                element={<EmployeeDetail />}
+                            />
+                            <Route path="/customers" element={<Customers />} />
+                            <Route
+                                path="/customers/:id"
+                                element={<CustomerDetail />}
+                            />
+                            <Route path="/search" element={<Search />} />
+                        </Routes>
+                    </Sidebar>
+                </HashRouter>
+            </AuthContextProvider>
         </ChakraProvider>
     );
 }
