@@ -51,7 +51,6 @@ export function Products() {
 
     const [productsListChange, setProductsListChange] = useState(false);
 
-
     const onUpdateProductData = (data) => {
         const productData = GetProductDataType(data);
         const update = async () => {
