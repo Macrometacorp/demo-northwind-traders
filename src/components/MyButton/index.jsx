@@ -1,8 +1,6 @@
 import { useState } from "react";
 import {
     Button,
-    Flex,
-    Spacer,
     useDisclosure,
     Modal,
     ModalOverlay,
@@ -14,22 +12,24 @@ import {
     FormLabel,
     NumberInput,
     NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
     Input,
     VStack,
     Box,
     ButtonGroup,
+    Select,
 } from "@chakra-ui/react";
+
+import {
+    GetDocumentData,
+} from "../../services";
 
 export default function MyButton(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [enteredCategory, setEnteredCategory] = useState("");
+    const [enteredCategory, setEnteredCategory] = useState(0);
     const [enteredName, setEnteredName] = useState("");
     const [enteredQuantityPerUnit, setEnteredQuantityPerUnit] = useState("");
-    const [enteredSupplier, setEnteredSupplier] = useState("");
+    const [enteredSupplier, setEnteredSupplier] = useState(0);
     const [enteredStock, setEnteredStock] = useState(0);
     const [enteredPrice, setEnteredPrice] = useState(0);
 
@@ -60,37 +60,72 @@ export default function MyButton(props) {
     const submitHandler = (event) => {
         event.preventDefault();
         const newProductData = {
+            key: props.dataKey,
             category: +enteredCategory,
             name: enteredName,
             quantityPerUnit: enteredQuantityPerUnit,
             supplier: +enteredSupplier,
-            stock: +enteredStock, // enforce a number conversion
+            stock: +enteredStock,
             price: +enteredPrice,
         };
-        setEnteredCategory("");
+        if (props.dataKey) {
+            props.onUpdate(newProductData);
+        } else {
+            props.onSave(newProductData);
+        }
+        setEnteredCategory(0);
         setEnteredName("");
         setEnteredQuantityPerUnit("");
-        setEnteredSupplier("");
+        setEnteredSupplier(0);
         setEnteredStock(0);
         setEnteredPrice(0);
-        props.onSave(newProductData);
         onClose();
     };
 
     const close = () => {
-        setEnteredCategory("");
+        setEnteredCategory(0);
         setEnteredName("");
         setEnteredQuantityPerUnit("");
-        setEnteredSupplier("");
+        setEnteredSupplier(0);
         setEnteredStock(0);
         setEnteredPrice(0);
         onClose();
     };
 
+    const modalOpened = () => {
+        if (props.dataKey) {
+            const get = async () => {
+                const response = await GetDocumentData(
+                    "products",
+                    props.dataKey,
+                );
+
+                const filteredSuppliers = props.suppliers.filter((supplier) => {
+                    return supplier.key === response.SupplierID.toString();
+                });
+
+                const filteredCategory = props.categories.filter((category) => {
+                    return category.key === response.CategoryID.toString();
+                });
+
+                setEnteredCategory(+filteredCategory[0].key);
+                setEnteredName(response.ProductName);
+                setEnteredQuantityPerUnit(response.QuantityPerUnit);
+                setEnteredSupplier(+filteredSuppliers[0].key);
+                setEnteredStock(+response.UnitsInStock);
+                setEnteredPrice(+response.UnitPrice);
+            };
+            get().catch(console.error);
+        }
+        onOpen();
+    };
+
+
     return (
-        <Flex minWidth="max-content" alignItems="center" gap="2">
-            <Spacer />
-            <Button onClick={onOpen}>Add New Product</Button>
+        <Box>
+            <Button variant="solid" onClick={modalOpened}>
+                {props.title}
+            </Button>
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
@@ -98,18 +133,26 @@ export default function MyButton(props) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add New Product</ModalHeader>
+                    <ModalHeader>{props.title}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <form onSubmit={submitHandler}>
                             <FormControl>
                                 <VStack spacing={2} align="stretch">
                                     <FormLabel>Category</FormLabel>
-                                    <Input
-                                        type="text"
+                                    <Select
                                         value={enteredCategory}
+                                        placeholder="Select option"
                                         onChange={categoryChangeHandler}
-                                    />
+                                    >
+                                        {props.categories.map((data) => (
+                                            <option
+                                                key={data.key + "cat"}
+                                                value={data.key}
+                                                label={data.category}
+                                            />
+                                        ))}
+                                    </Select>
                                     <FormLabel>Name</FormLabel>
                                     <Input
                                         type="text"
@@ -123,26 +166,28 @@ export default function MyButton(props) {
                                         onChange={quantityPerUnitChangeHandler}
                                     />
                                     <FormLabel>Supplier</FormLabel>
-                                    <Input
-                                        type="text"
+                                    <Select
                                         value={enteredSupplier}
+                                        placeholder="Select option"
                                         onChange={supplierChangeHandler}
-                                    />
+                                    >
+                                        {props.suppliers.map((data) => (
+                                            <option
+                                                key={data.key + "sup"}
+                                                value={data.key}
+                                                label={data.companyName}
+                                            />
+                                        ))}
+                                    </Select>
                                     <FormLabel>Stock</FormLabel>
-                                    <NumberInput min={1}>
+                                    <NumberInput min={1} value={enteredStock}>
                                         <NumberInputField
-                                            value={enteredStock}
                                             onChange={stockChangeHandler}
                                         />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
                                     </NumberInput>
                                     <FormLabel>Price</FormLabel>
-                                    <NumberInput min={1}>
+                                    <NumberInput min={1} value={enteredPrice}>
                                         <NumberInputField
-                                            value={enteredPrice}
                                             onChange={priceChangeHandler}
                                         />
                                     </NumberInput>
@@ -160,7 +205,7 @@ export default function MyButton(props) {
                                                 Close
                                             </Button>
                                             <Button type="submit">
-                                                Add Product
+                                                {props.modalTitle}
                                             </Button>
                                         </ButtonGroup>
                                     </Box>
@@ -170,6 +215,6 @@ export default function MyButton(props) {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </Flex>
+        </Box>
     );
 }

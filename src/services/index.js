@@ -11,6 +11,14 @@ export async function getSuppliers({ page, pageSize }) {
     return await invokeFunction("get-suppliers", params);
 }
 
+export async function getAllSuppliers() {
+    return await invokeFunction("get-all-suppliers", "");
+}
+
+export async function getAllCategories() {
+    return await invokeFunction("get-all-categories", "");
+}
+
 export async function getSupplierById(id) {
     return await invokeFunction("get-supplier-info", { key: id });
 }
@@ -30,6 +38,14 @@ export async function getProductById(id) {
 
 export async function addProduct(data) {
     return await addProductData("products", data);
+}
+
+export async function updateProduct(data, key) {
+    return await updateProductData("products", data, key);
+}
+
+export async function deleteProduct(key) {
+    return await deleteProductData("products", key);
 }
 
 export async function getOrders({ page, pageSize }) {
@@ -76,9 +92,32 @@ export async function runSearch(functionName, params) {
     return data.result;
 }
 
+export async function GetDocumentData(collection, key) {
+    const response = await fetch(
+        `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collection}/${key}`,
+        {
+            method: "GET",
+            headers: {
+                Authorization: `apiKey ${API_KEY}`,
+                accept: "application/json",
+            },
+        },
+    );
+    return await response.json();
+}
+
 async function invokeFunction(functionName, params) {
-    const data = await GetQueryWorkerData(functionName, params);
-    return data.result[0];
+    const queryData = await GetQueryWorkerData(functionName, params);
+    console.log(queryData);
+    console.log(queryData.result.length)
+    let data;
+    if (queryData.result.length === 1) {
+        data = queryData.result[0];
+    } else {
+        data = queryData.result;
+    }
+
+    return data;
 }
 
 async function GetQueryWorkerData(functionName, params) {
@@ -90,7 +129,10 @@ async function GetQueryWorkerData(functionName, params) {
                 Authorization: `apiKey ${API_KEY}`,
                 accept: "application/json",
             },
-            body: JSON.stringify({ bindVars: params }),
+            body:
+                params !== ""
+                    ? JSON.stringify({ bindVars: params })
+                    : JSON.stringify({}),
         },
     );
     return await response.json();
@@ -106,6 +148,36 @@ async function addProductData(collectionName, params) {
                 accept: "application/json",
             },
             body: JSON.stringify(params),
+        },
+    );
+    return await response.json();
+}
+
+async function updateProductData(collectionName, params, key) {
+    const response = await fetch(
+        `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collectionName}/${key}`,
+        {
+            method: "PATCH",
+            headers: {
+                Authorization: `apiKey ${API_KEY}`,
+                accept: "application/json",
+            },
+            body: JSON.stringify(params),
+        },
+    );
+    return await response.json();
+}
+
+async function deleteProductData(collectionName, key) {
+    const response = await fetch(
+        `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collectionName}/${key}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `apiKey ${API_KEY}`,
+                accept: "application/json",
+            },
+            body: "",
         },
     );
     return await response.json();
