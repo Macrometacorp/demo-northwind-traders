@@ -7,71 +7,80 @@ import Pagination from "../../components/Pagination";
 import { getSuppliers } from "../../services";
 
 export function Suppliers() {
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Company",
-        accessor: "CompanyName",
-        Cell: (info) => {
-          return (
-            <Link to={`/suppliers/${info.row.original._key}`}>
-              <Text color={useColorModeValue("primary.500", "primary.200")}>
-                {info.value}
-              </Text>
-            </Link>
-          );
-        },
-      },
-      {
-        Header: "Contact",
-        accessor: "ContactName",
-      },
-      {
-        Header: "Title",
-        accessor: "ContactTitle",
-      },
-      {
-        Header: "City",
-        accessor: "City",
-      },
-      {
-        Header: "Country",
-        accessor: "Country",
-      },
-    ],
-    []
-  );
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Company",
+                accessor: "CompanyName",
+                Cell: (info) => {
+                    return (
+                        <Link to={`/suppliers/${info.row.original._key}`}>
+                            <Text
+                                color={useColorModeValue(
+                                    "primary.500",
+                                    "primary.200",
+                                )}
+                            >
+                                {info.value}
+                            </Text>
+                        </Link>
+                    );
+                },
+            },
+            {
+                Header: "Contact",
+                accessor: "ContactName",
+            },
+            {
+                Header: "Title",
+                accessor: "ContactTitle",
+            },
+            {
+                Header: "City",
+                accessor: "City",
+            },
+            {
+                Header: "Country",
+                accessor: "Country",
+            },
+        ],
+        [],
+    );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
 
-  const [suppliers, setSuppliers] = useState({
-    totalDocuments: 0,
-    data: [],
-  });
+    const [suppliers, setSuppliers] = useState({
+        totalDocuments: 0,
+        data: [],
+    });
 
-  useEffect(() => {
-    const get = async () => {
-      const _suppliers = await getSuppliers({
-        page: currentPage,
-        pageSize,
-      });
+    useEffect(() => {
+        const get = async () => {
+            const _suppliers = await getSuppliers({
+                page: currentPage,
+                pageSize,
+            });
 
-      setSuppliers(_suppliers);
-    };
+            setSuppliers(_suppliers);
+        };
 
-    get().catch(console.error);
-  }, [currentPage]);
+        get().catch(console.error);
+    }, [currentPage]);
 
-  return (
-    <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
-      <MyTable title="Suppliers" columns={columns} data={suppliers.data} />
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalItems={suppliers.totalDocuments}
-        ItemsPerPage={pageSize}
-      />
-    </Box>
-  );
+    return (
+        <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
+            <MyTable
+                title="Suppliers"
+                columns={columns}
+                data={suppliers.data}
+            />
+            <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalItems={suppliers.totalDocuments}
+                ItemsPerPage={pageSize}
+            />
+        </Box>
+    );
 }

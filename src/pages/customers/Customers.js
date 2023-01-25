@@ -7,71 +7,80 @@ import Pagination from "../../components/Pagination";
 import { getCustomers } from "../../services";
 
 export function Customers() {
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Company",
-        accessor: "CompanyName",
-        Cell: (info) => {
-          return (
-            <Link to={`/customers/${info.row.original._key}`}>
-              <Text color={useColorModeValue("primary.500", "primary.200")}>
-                {info.value}
-              </Text>
-            </Link>
-          );
-        },
-      },
-      {
-        Header: "Contact",
-        accessor: "ContactName",
-      },
-      {
-        Header: "Title",
-        accessor: "ContactTitle",
-      },
-      {
-        Header: "City",
-        accessor: "City",
-      },
-      {
-        Header: "Country",
-        accessor: "Country",
-      },
-    ],
-    []
-  );
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Company",
+                accessor: "CompanyName",
+                Cell: (info) => {
+                    return (
+                        <Link to={`/customers/${info.row.original._key}`}>
+                            <Text
+                                color={useColorModeValue(
+                                    "primary.500",
+                                    "primary.200",
+                                )}
+                            >
+                                {info.value}
+                            </Text>
+                        </Link>
+                    );
+                },
+            },
+            {
+                Header: "Contact",
+                accessor: "ContactName",
+            },
+            {
+                Header: "Title",
+                accessor: "ContactTitle",
+            },
+            {
+                Header: "City",
+                accessor: "City",
+            },
+            {
+                Header: "Country",
+                accessor: "Country",
+            },
+        ],
+        [],
+    );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
 
-  const [customers, setCustomers] = useState({
-    totalDocuments: 0,
-    data: [],
-  });
+    const [customers, setCustomers] = useState({
+        totalDocuments: 0,
+        data: [],
+    });
 
-  useEffect(() => {
-    const get = async () => {
-      const _customers = await getCustomers({
-        page: currentPage,
-        pageSize,
-      });
+    useEffect(() => {
+        const get = async () => {
+            const _customers = await getCustomers({
+                page: currentPage,
+                pageSize,
+            });
 
-      setCustomers(_customers);
-    };
+            setCustomers(_customers);
+        };
 
-    get().catch(console.error);
-  }, [currentPage]);
+        get().catch(console.error);
+    }, [currentPage]);
 
-  return (
-    <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
-      <MyTable title="Customers" columns={columns} data={customers.data} />
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalItems={customers.totalDocuments}
-        ItemsPerPage={pageSize}
-      />
-    </Box>
-  );
+    return (
+        <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
+            <MyTable
+                title="Customers"
+                columns={columns}
+                data={customers.data}
+            />
+            <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalItems={customers.totalDocuments}
+                ItemsPerPage={pageSize}
+            />
+        </Box>
+    );
 }
