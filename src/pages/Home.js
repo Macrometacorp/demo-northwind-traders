@@ -1,6 +1,7 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
     Box,
+    Button,
     Center,
     Heading,
     Image,
@@ -10,10 +11,15 @@ import {
 } from "@chakra-ui/react";
 
 import northwindTraders from "../northwind-traders.png";
+import { useContext } from "react";
+import authContext from "../context/auth-context";
 
 function Home() {
+    const ctx = useContext(authContext);
+
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
+            <Button onClick={ctx.onLogout}>Log Out</Button>
             <Heading size="lg" mb={4}>
                 Macrometa Northwind Traders Demo
             </Heading>

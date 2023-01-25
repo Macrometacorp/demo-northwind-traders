@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import DetailCard from "../../components/DetailCard";
 import { getEmployeeById } from "../../services";
+import authContext from "../../context/auth-context";
 
 export function EmployeeDetail() {
+    const ctx = useContext(authContext);
+
     const [employee, setEmployee] = useState([]);
 
     const { id } = useParams();
 
     useEffect(() => {
         const getEmployee = async () => {
-            const employee = await getEmployeeById(id);
+            const employee = await getEmployeeById(id, ctx.token);
 
             const data = [
                 {
@@ -43,7 +46,7 @@ export function EmployeeDetail() {
             setEmployee(data);
         };
         getEmployee().catch(console.error);
-    }, [id]);
+    }, [id, ctx.token]);
 
     return (
         <DetailCard

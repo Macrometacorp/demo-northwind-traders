@@ -26,7 +26,7 @@ import { Link } from "react-router-dom";
 import Logotype from "../Logotype";
 
 const LinkItems = [
-    { name: "Home", icon: FaHome, path: "/" },
+    { name: "Home", icon: FaHome, path: "/home" },
     //{ name: "Dashboard", icon: FaTachometerAlt, path: "/dashboard" },
     { name: "Suppliers", icon: FaTruckLoading, path: "/suppliers" },
     { name: "Products", icon: FaBox, path: "/products" },

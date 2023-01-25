@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -12,8 +12,11 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { GetDocumentData } from "../../services";
+import authContext from "../../context/auth-context";
 
 export default function ProductForm(props) {
+    const ctx = useContext(authContext);
+
     const [enteredCategory, setEnteredCategory] = useState(0);
     const [enteredName, setEnteredName] = useState("");
     const [enteredQuantityPerUnit, setEnteredQuantityPerUnit] = useState("");
@@ -86,6 +89,7 @@ export default function ProductForm(props) {
                 const response = await GetDocumentData(
                     "products",
                     props.dataKey,
+                    ctx.token,
                 );
 
                 const filteredSuppliers = props.suppliers.filter((supplier) => {
@@ -105,7 +109,13 @@ export default function ProductForm(props) {
             };
             get().catch(console.error);
         }
-    }, [props.categories, props.dataKey, props.suppliers, props.buttonClicked]);
+    }, [
+        props.categories,
+        props.dataKey,
+        props.suppliers,
+        props.buttonClicked,
+        ctx.token,
+    ]);
 
     return (
         <form onSubmit={submitHandler}>

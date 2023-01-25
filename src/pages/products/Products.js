@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     Box,
@@ -22,6 +22,7 @@ import {
     getProducts,
     updateProduct,
 } from "../../services";
+import authContext from "../../context/auth-context";
 
 function GetProductDataType(data) {
     return {
@@ -38,9 +39,10 @@ function GetProductDataType(data) {
 }
 
 export function Products() {
+    const ctx = useContext(authContext);
+
     const [suppliers, setSuppliers] = useState([]);
     const [categories, setCategories] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
 
@@ -54,7 +56,7 @@ export function Products() {
     const onUpdateProductData = (data) => {
         const productData = GetProductDataType(data);
         const update = async () => {
-            await updateProduct(productData, data.key);
+            await updateProduct(productData, data.key, ctx.token);
             setProductsListChange(true);
         };
         update().catch(console.error);
@@ -64,7 +66,7 @@ export function Products() {
     const onSaveProductData = (data) => {
         const productData = GetProductDataType(data);
         const add = async () => {
-            await addProduct(productData);
+            await addProduct(productData, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -73,7 +75,7 @@ export function Products() {
 
     const onDeleteProductData = (key) => {
         const add = async () => {
-            await deleteProduct(key);
+            await deleteProduct(key, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -150,28 +152,31 @@ export function Products() {
 
     useEffect(() => {
         const getSuppliers = async () => {
-            const _suppliers = await getAllSuppliers();
+            const _suppliers = await getAllSuppliers(ctx.token);
             setSuppliers(_suppliers);
         };
         getSuppliers().catch(console.error);
 
         const getCategories = async () => {
-            const _categories = await getAllCategories();
+            const _categories = await getAllCategories(ctx.token);
             setCategories(_categories);
         };
         getCategories().catch(console.error);
-    }, []);
+    }, [ctx.token]);
 
     useEffect(() => {
         const get = async () => {
-            const _products = await getProducts({
-                page: currentPage,
-                pageSize,
-            });
+            const _products = await getProducts(
+                {
+                    page: currentPage,
+                    pageSize,
+                },
+                ctx.token,
+            );
             setProducts(_products);
         };
         get().catch(console.error);
-    }, [currentPage, productsListChange]);
+    }, [currentPage, productsListChange, ctx.token]);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">

@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import DetailCard from "../../components/DetailCard";
 import { getProductById } from "../../services";
+import authContext from "../../context/auth-context";
 
 export function ProductDetail() {
+    const ctx = useContext(authContext);
+
     const [product, setProduct] = useState([]);
 
     const { id } = useParams();
 
     useEffect(() => {
         const getProduct = async () => {
-            const product = await getProductById(id);
+            const product = await getProductById(id, ctx.token);
 
             const data = [
                 { label: "Product Name", value: product.ProductName },
@@ -34,7 +37,7 @@ export function ProductDetail() {
             setProduct(data);
         };
         getProduct().catch(console.error);
-    }, [id]);
+    }, [id, ctx.token]);
 
     return (
         <DetailCard

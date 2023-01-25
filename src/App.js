@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import { theme } from "./theme";
 import Sidebar from "./components/Sidebar";
@@ -13,45 +13,146 @@ import { Employees, EmployeeDetail } from "./pages/employees";
 import { Customers, CustomerDetail } from "./pages/customers";
 import Search from "./pages/Search";
 import { AuthContextProvider } from "./context/auth-context";
+import Auth from "./pages/login/Auth";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
     return (
         <ChakraProvider theme={theme}>
             <AuthContextProvider>
-                <HashRouter basename="/">
-                    <Sidebar>
-                        <Routes>
-                            <Route path="/" exact element={<Home />} />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/suppliers" element={<Suppliers />} />
-                            <Route
-                                path="/suppliers/:id"
-                                element={<SupplierDetail />}
-                            />
-                            <Route path="/products" element={<Products />} />
-                            <Route
-                                path="/products/:id"
-                                element={<ProductDetail />}
-                            />
-                            <Route path="/orders" element={<Orders />} />
-                            <Route
-                                path="/orders/:id"
-                                element={<OrderDetail />}
-                            />
-                            <Route path="/employees" element={<Employees />} />
-                            <Route
-                                path="/employees/:id"
-                                element={<EmployeeDetail />}
-                            />
-                            <Route path="/customers" element={<Customers />} />
-                            <Route
-                                path="/customers/:id"
-                                element={<CustomerDetail />}
-                            />
-                            <Route path="/search" element={<Search />} />
-                        </Routes>
-                    </Sidebar>
-                </HashRouter>
+                <Routes>
+                    <Route path="/" exact element={<Home />} />
+                    <Route path="/login" exact element={<Auth />} />
+                    <Route
+                        path="/home"
+                        exact
+                        element={
+                            <Sidebar>
+                                <Home />
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Dashboard />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/suppliers"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Suppliers />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/suppliers/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <SupplierDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/products"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Products />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/products/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <ProductDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/orders"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Orders />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/orders/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <OrderDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/employees"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Employees />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/employees/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <EmployeeDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/customers"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Customers />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/customers/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <CustomerDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/search"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Search />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                </Routes>
             </AuthContextProvider>
         </ChakraProvider>
     );

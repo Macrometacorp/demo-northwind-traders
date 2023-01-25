@@ -1,104 +1,103 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const FABRIC = process.env.REACT_APP_FABRIC_NAME;
-const API_KEY = process.env.REACT_APP_API_KEY;
 
-export async function getSuppliers({ page, pageSize }) {
+export async function getSuppliers({ page, pageSize }, token) {
     const params = {
         offset: (page - 1) * pageSize,
         limit: pageSize,
     };
 
-    return await invokeFunction("get-suppliers", params);
+    return await invokeFunction("get-suppliers", params, token);
 }
 
-export async function getAllSuppliers() {
-    return await invokeFunction("get-all-suppliers", "");
+export async function getAllSuppliers(token) {
+    return await invokeFunction("get-all-suppliers", "", token);
 }
 
-export async function getAllCategories() {
-    return await invokeFunction("get-all-categories", "");
+export async function getAllCategories(token) {
+    return await invokeFunction("get-all-categories", "", token);
 }
 
-export async function getSupplierById(id) {
-    return await invokeFunction("get-supplier-info", { key: id });
+export async function getSupplierById(id, token) {
+    return await invokeFunction("get-supplier-info", { key: id }, token);
 }
 
-export async function getProducts({ page, pageSize }) {
+export async function getProducts({ page, pageSize }, token) {
     const params = {
         offset: (page - 1) * pageSize,
         limit: pageSize,
     };
 
-    return await invokeFunction("get-products", params);
+    return await invokeFunction("get-products", params, token);
 }
 
-export async function getProductById(id) {
-    return await invokeFunction("get-product-info", { key: id });
+export async function getProductById(id, token) {
+    return await invokeFunction("get-product-info", { key: id }, token);
 }
 
-export async function addProduct(data) {
-    return await addProductData("products", data);
+export async function addProduct(data, token) {
+    return await addProductData("products", data, token);
 }
 
-export async function updateProduct(data, key) {
-    return await updateProductData("products", data, key);
+export async function updateProduct(data, key, token) {
+    return await updateProductData("products", data, key, token);
 }
 
-export async function deleteProduct(key) {
-    return await deleteProductData("products", key);
+export async function deleteProduct(key, token) {
+    return await deleteProductData("products", key, token);
 }
 
-export async function getOrders({ page, pageSize }) {
+export async function getOrders({ page, pageSize }, token) {
     const params = {
         offset: (page - 1) * pageSize,
         limit: pageSize,
     };
 
-    return await invokeFunction("get-orders", params);
+    return await invokeFunction("get-orders", params, token);
 }
 
-export async function getOrderById(id) {
-    return await invokeFunction("get-order-info", { key: id });
+export async function getOrderById(id, token) {
+    return await invokeFunction("get-order-info", { key: id }, token);
 }
 
-export async function getCustomers({ page, pageSize }) {
+export async function getCustomers({ page, pageSize }, token) {
     const params = {
         offset: (page - 1) * pageSize,
         limit: pageSize,
     };
 
-    return await invokeFunction("get-customers", params);
+    return await invokeFunction("get-customers", params, token);
 }
 
-export async function getCustomerById(id) {
-    return await invokeFunction("get-customer-info", { key: id });
+export async function getCustomerById(id, token) {
+    return await invokeFunction("get-customer-info", { key: id }, token);
 }
 
-export async function getEmployees({ page, pageSize }) {
+export async function getEmployees({ page, pageSize }, token) {
     const params = {
         offset: (page - 1) * pageSize,
         limit: pageSize,
     };
 
-    return await invokeFunction("get-employees", params);
+    return await invokeFunction("get-employees", params, token);
 }
 
-export async function getEmployeeById(id) {
-    return await invokeFunction("get-employee-info", { key: id });
+export async function getEmployeeById(id, token) {
+    return await invokeFunction("get-employee-info", { key: id }, token);
 }
 
-export async function runSearch(functionName, params) {
-    const data = await GetQueryWorkerData(functionName, params);
+export async function runSearch(functionName, params, token) {
+    const data = await GetQueryWorkerData(functionName, params, token);
     return data.result;
 }
 
-export async function GetDocumentData(collection, key) {
+export async function GetDocumentData(collection, key, token) {
     const response = await fetch(
         `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collection}/${key}`,
         {
             method: "GET",
             headers: {
-                Authorization: `apiKey ${API_KEY}`,
+                Authorization: `bearer ${token}`,
                 accept: "application/json",
             },
         },
@@ -106,8 +105,20 @@ export async function GetDocumentData(collection, key) {
     return await response.json();
 }
 
-async function invokeFunction(functionName, params) {
-    const queryData = await GetQueryWorkerData(functionName, params);
+export async function GetJwtToken(params) {
+    console.log(params);
+    const response = await fetch(`${BASE_URL}/_open/auth`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+    });
+    return await response.json();
+}
+
+async function invokeFunction(functionName, params, token) {
+    const queryData = await GetQueryWorkerData(functionName, params, token);
     let data;
     if (queryData.result.length === 1) {
         data = queryData.result[0];
@@ -118,13 +129,13 @@ async function invokeFunction(functionName, params) {
     return data;
 }
 
-async function GetQueryWorkerData(functionName, params) {
+async function GetQueryWorkerData(functionName, params, token) {
     const response = await fetch(
         `${BASE_URL}/_fabric/${FABRIC}/_api/restql/execute/${functionName}`,
         {
             method: "POST",
             headers: {
-                Authorization: `apiKey ${API_KEY}`,
+                Authorization: `bearer ${token}`,
                 accept: "application/json",
             },
             body:
@@ -136,13 +147,13 @@ async function GetQueryWorkerData(functionName, params) {
     return await response.json();
 }
 
-async function addProductData(collectionName, params) {
+async function addProductData(collectionName, params, token) {
     const response = await fetch(
         `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collectionName}`,
         {
             method: "POST",
             headers: {
-                Authorization: `apiKey ${API_KEY}`,
+                Authorization: `bearer ${token}`,
                 accept: "application/json",
             },
             body: JSON.stringify(params),
@@ -151,13 +162,13 @@ async function addProductData(collectionName, params) {
     return await response.json();
 }
 
-async function updateProductData(collectionName, params, key) {
+async function updateProductData(collectionName, params, key, token) {
     const response = await fetch(
         `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collectionName}/${key}`,
         {
             method: "PATCH",
             headers: {
-                Authorization: `apiKey ${API_KEY}`,
+                Authorization: `bearer ${token}`,
                 accept: "application/json",
             },
             body: JSON.stringify(params),
@@ -166,13 +177,13 @@ async function updateProductData(collectionName, params, key) {
     return await response.json();
 }
 
-async function deleteProductData(collectionName, key) {
+async function deleteProductData(collectionName, key, token) {
     const response = await fetch(
         `${BASE_URL}/_fabric/${FABRIC}/_api/document/${collectionName}/${key}`,
         {
             method: "DELETE",
             headers: {
-                Authorization: `apiKey ${API_KEY}`,
+                Authorization: `bearer ${token}`,
                 accept: "application/json",
             },
             body: "",
