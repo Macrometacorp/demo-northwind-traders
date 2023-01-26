@@ -106,7 +106,6 @@ export async function GetDocumentData(collection, key, token) {
 }
 
 export async function GetJwtToken(params) {
-    console.log(params);
     const response = await fetch(`${BASE_URL}/_open/auth`, {
         method: "POST",
         headers: {

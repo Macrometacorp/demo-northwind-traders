@@ -21,7 +21,15 @@ export default function App() {
         <ChakraProvider theme={theme}>
             <AuthContextProvider>
                 <Routes>
-                    <Route path="/" exact element={<Home />} />
+                    <Route
+                        path="/"
+                        exact
+                        element={
+                            <Sidebar>
+                                <Home />
+                            </Sidebar>
+                        }
+                    />
                     <Route path="/login" exact element={<Auth />} />
                     <Route
                         path="/home"

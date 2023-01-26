@@ -21,7 +21,6 @@ export function AuthContextProvider(props) {
     const location = useLocation();
 
     const logoutHandler = () => {
-        localStorage.removeItem("isLoggedIn");
         setEmail("");
         setPassword("");
         setToken("");
@@ -36,16 +35,14 @@ export function AuthContextProvider(props) {
             username: "root",
         };
         const response = await GetJwtToken(requestBody);
-        setEmail(email);
-        setPassword(password);
-        setToken(response.jwt);
-        if (token) {
-            localStorage.setItem("isLoggedIn", "1");
+        if (response.jwt) {
+            setEmail(email);
+            setPassword(password);
+            setToken(response.jwt);
             setLoggedIn(true);
             navigate(location.state?.from?.pathname || "/home");
         } else {
             setLoggedIn(false);
-            navigate(location.state?.from?.pathname || "/login");
         }
     };
 

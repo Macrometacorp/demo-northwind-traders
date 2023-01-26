@@ -1,7 +1,6 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Button,
     Center,
     Heading,
     Image,
@@ -11,15 +10,10 @@ import {
 } from "@chakra-ui/react";
 
 import northwindTraders from "../northwind-traders.png";
-import { useContext } from "react";
-import authContext from "../context/auth-context";
 
 function Home() {
-    const ctx = useContext(authContext);
-
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
-            <Button onClick={ctx.onLogout}>Log Out</Button>
             <Heading size="lg" mb={4}>
                 Macrometa Northwind Traders Demo
             </Heading>
@@ -38,9 +32,7 @@ function Home() {
             <Text fontSize="lg">
                 Northwind Traders has become a "Hello World" example for any
                 database, and this demo shows that we can have that data
-                distributed across more than 175 locations globally. Integration
-                with Akamai Edge Workers delivers data closer to the users,
-                cutting down latency times.
+                distributed across more than 175 locations globally.
             </Text>
             <Text fontSize="lg" my={4}>
                 This application architecture enables developers to build truly

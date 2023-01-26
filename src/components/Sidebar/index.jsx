@@ -8,6 +8,9 @@ import {
     Drawer,
     DrawerContent,
     useDisclosure,
+    Button,
+    Divider,
+    Stack,
 } from "@chakra-ui/react";
 import {
     FaBars,
@@ -21,9 +24,11 @@ import {
     FaSearch,
 } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Logotype from "../Logotype";
+import { useContext } from "react";
+import authContext from "../../context/auth-context";
 
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
@@ -70,6 +75,18 @@ export default function Sidebar({ children }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+    const ctx = useContext(authContext);
+
+    const navigate = useNavigate();
+
+    const loginHandler = () => {
+        navigate("/login");
+    };
+
+    const selectRegionHandler = () => {
+        console.log("selectRegionHandler");
+    };
+
     return (
         <Box
             bg={useColorModeValue("white", "gray.800")}
@@ -92,11 +109,33 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     onClick={onClose}
                 />
             </Flex>
+            <Divider orientation="horizontal" />
             {LinkItems.map((link) => (
                 <NavItem key={link.name} icon={link.icon} path={link.path}>
                     {link.name}
                 </NavItem>
             ))}
+            <Divider orientation="horizontal" />
+            <Flex
+                h={20}
+                alignItems="center"
+                mx={8}
+                justifyContent="space-between"
+            >
+                {ctx.token === "" ? (
+                    <div>
+                        <Button onClick={loginHandler}>Log In</Button>
+                    </div>
+                ) : (
+                    <Stack direction="column" spacing={4}>
+                        <Button onClick={selectRegionHandler}>
+                            Select Region
+                        </Button>
+                        <Button onClick={ctx.onLogout}>Log Out</Button>
+                    </Stack>
+                )}
+            </Flex>
+            <Divider orientation="horizontal" />
         </Box>
     );
 };

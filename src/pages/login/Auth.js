@@ -8,6 +8,7 @@ import {
     Button,
     Heading,
     Text,
+    FormErrorMessage,
     useColorModeValue,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
@@ -18,11 +19,21 @@ function Auth() {
 
     const [enteredEmail, setEnteredEmail] = useState();
     const [enteredPassword, setEnteredPassword] = useState();
+    const [isError, setIsError] = useState(false);
 
     //todo
     //  we render the thing on every change :(
     //  form debounce
     //  console.log(ctx);
+
+    const submitHandler = () => {
+        ctx.onLogin(enteredEmail, enteredPassword);
+        if (ctx.isLoggedIn) {
+            setIsError(false);
+        } else {
+            setIsError(true);
+        }
+    };
 
     const emailInputHandler = (event) => {
         setEnteredEmail(event.target.value);
@@ -55,25 +66,33 @@ function Auth() {
                     p={8}
                 >
                     <Stack spacing={4}>
-                        <FormControl id="email">
+                        <FormControl id="email" isRequired isInvalid={isError}>
                             <FormLabel>Email address</FormLabel>
-                            <Input type="email" onChange={emailInputHandler} />
+                            <Input
+                                type="email"
+                                name="email"
+                                onChange={emailInputHandler}
+                            />
                         </FormControl>
-                        <FormControl id="password">
+                        <FormControl
+                            id="password"
+                            isRequired
+                            isInvalid={isError}
+                        >
                             <FormLabel>Password</FormLabel>
                             <Input
                                 type="password"
+                                name="password"
                                 onChange={passwordInputHandler}
                             />
+                            {isError && (
+                                <FormErrorMessage>
+                                    Login Error! Status code: 500
+                                </FormErrorMessage>
+                            )}
                         </FormControl>
                         <Stack spacing={10}>
-                            <Button
-                                onClick={() =>
-                                    ctx.onLogin(enteredEmail, enteredPassword)
-                                }
-                            >
-                                Sign In
-                            </Button>
+                            <Button onClick={submitHandler}>Sign In</Button>
                         </Stack>
                     </Stack>
                 </Box>

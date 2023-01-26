@@ -52,7 +52,7 @@ export default function Search() {
             setResults(results);
         };
         search().catch(console.error);
-    }, [keyword, functionName]);
+    }, [keyword, functionName, ctx.token]);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
