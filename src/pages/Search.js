@@ -47,6 +47,7 @@ export default function Search() {
                 {
                     keyword: keyword.toLowerCase(),
                 },
+                ctx.baseUrl,
                 ctx.token,
             );
             setResults(results);

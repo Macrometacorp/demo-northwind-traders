@@ -14,7 +14,7 @@ export function SupplierDetail() {
 
     useEffect(() => {
         const getSupplier = async () => {
-            const supplier = await getSupplierById(id, ctx.token);
+            const supplier = await getSupplierById(id, ctx.baseUrl, ctx.token);
 
             const data = [
                 { label: "Company Name", value: supplier.CompanyName },

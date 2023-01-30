@@ -14,7 +14,7 @@ export function EmployeeDetail() {
 
     useEffect(() => {
         const getEmployee = async () => {
-            const employee = await getEmployeeById(id, ctx.token);
+            const employee = await getEmployeeById(id, ctx.baseUrl, ctx.token);
 
             const data = [
                 {

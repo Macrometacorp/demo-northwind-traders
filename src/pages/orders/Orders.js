@@ -80,6 +80,7 @@ export function Orders() {
                     page: currentPage,
                     pageSize,
                 },
+                ctx.baseUrl,
                 ctx.token,
             );
 

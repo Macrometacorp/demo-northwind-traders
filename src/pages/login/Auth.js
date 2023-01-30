@@ -17,31 +17,24 @@ import authContext from "../../context/auth-context";
 function Auth() {
     const ctx = useContext(authContext);
 
-    const [enteredEmail, setEnteredEmail] = useState();
-    const [enteredPassword, setEnteredPassword] = useState();
+    const [enteredEmail, setEnteredEmail] = useState("");
+    const [enteredPassword, setEnteredPassword] = useState("");
     const [isError, setIsError] = useState(false);
-
-    //todo
-    //  we render the thing on every change :(
-    //  form debounce
-    //  console.log(ctx);
 
     const submitHandler = () => {
         ctx.onLogin(enteredEmail, enteredPassword);
-        if (ctx.isLoggedIn) {
-            setIsError(false);
-        } else {
-            setIsError(true);
-        }
+
+        setTimeout(function () {
+            if (ctx.isLoggedIn) {
+                setIsError(false);
+            } else {
+                setIsError(true);
+            }
+        }, 400);
     };
 
-    const emailInputHandler = (event) => {
-        setEnteredEmail(event.target.value);
-    };
-
-    const passwordInputHandler = (event) => {
-        setEnteredPassword(event.target.value);
-    };
+    const debouncedSetEnteredEmail = debounce(setEnteredEmail, 500);
+    const debounceSetEnteredPassword = debounce(setEnteredPassword, 500);
 
     return (
         <Flex
@@ -71,7 +64,9 @@ function Auth() {
                             <Input
                                 type="email"
                                 name="email"
-                                onChange={emailInputHandler}
+                                onChange={(e) =>
+                                    debouncedSetEnteredEmail(e.target.value)
+                                }
                             />
                         </FormControl>
                         <FormControl
@@ -83,7 +78,9 @@ function Auth() {
                             <Input
                                 type="password"
                                 name="password"
-                                onChange={passwordInputHandler}
+                                onChange={(e) =>
+                                    debounceSetEnteredPassword(e.target.value)
+                                }
                             />
                             {isError && (
                                 <FormErrorMessage>
@@ -99,6 +96,16 @@ function Auth() {
             </Stack>
         </Flex>
     );
+}
+
+function debounce(callback, wait) {
+    let timeoutId = null;
+    return (...args) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            callback.apply(null, args);
+        }, wait);
+    };
 }
 
 export default Auth;

@@ -56,7 +56,7 @@ export function Products() {
     const onUpdateProductData = (data) => {
         const productData = GetProductDataType(data);
         const update = async () => {
-            await updateProduct(productData, data.key, ctx.token);
+            await updateProduct(productData, data.key, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         update().catch(console.error);
@@ -66,7 +66,7 @@ export function Products() {
     const onSaveProductData = (data) => {
         const productData = GetProductDataType(data);
         const add = async () => {
-            await addProduct(productData, ctx.token);
+            await addProduct(productData, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -152,17 +152,17 @@ export function Products() {
 
     useEffect(() => {
         const getSuppliers = async () => {
-            const _suppliers = await getAllSuppliers(ctx.token);
+            const _suppliers = await getAllSuppliers(ctx.baseUrl, ctx.token);
             setSuppliers(_suppliers);
         };
         getSuppliers().catch(console.error);
 
         const getCategories = async () => {
-            const _categories = await getAllCategories(ctx.token);
+            const _categories = await getAllCategories(ctx.baseUrl, ctx.token);
             setCategories(_categories);
         };
         getCategories().catch(console.error);
-    }, [ctx.token]);
+    }, [ctx.baseUrl, ctx.token]);
 
     useEffect(() => {
         const get = async () => {
@@ -171,12 +171,13 @@ export function Products() {
                     page: currentPage,
                     pageSize,
                 },
+                ctx.baseUrl,
                 ctx.token,
             );
             setProducts(_products);
         };
         get().catch(console.error);
-    }, [currentPage, productsListChange, ctx.token]);
+    }, [currentPage, productsListChange, ctx.baseUrl, ctx.token]);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">

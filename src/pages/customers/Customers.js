@@ -65,6 +65,7 @@ export function Customers() {
                     page: currentPage,
                     pageSize,
                 },
+                ctx.baseUrl,
                 ctx.token,
             );
 

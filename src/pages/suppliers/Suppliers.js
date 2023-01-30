@@ -65,6 +65,7 @@ export function Suppliers() {
                     page: currentPage,
                     pageSize,
                 },
+                ctx.baseUrl,
                 ctx.token,
             );
 

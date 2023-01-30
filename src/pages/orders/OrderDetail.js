@@ -16,7 +16,11 @@ export function OrderDetail() {
 
     useEffect(() => {
         const getOrder = async () => {
-            const order = await getOrderById(Number(id), ctx.token);
+            const order = await getOrderById(
+                Number(id),
+                ctx.baseUrl,
+                ctx.token,
+            );
             setProducts([...order.Products.List]);
 
             const data = [

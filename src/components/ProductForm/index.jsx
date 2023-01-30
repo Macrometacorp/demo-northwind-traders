@@ -89,6 +89,7 @@ export default function ProductForm(props) {
                 const response = await GetDocumentData(
                     "products",
                     props.dataKey,
+                    ctx.baseUrl,
                     ctx.token,
                 );
 
@@ -114,6 +115,7 @@ export default function ProductForm(props) {
         props.dataKey,
         props.suppliers,
         props.buttonClicked,
+        ctx.baseUrl,
         ctx.token,
     ]);
 

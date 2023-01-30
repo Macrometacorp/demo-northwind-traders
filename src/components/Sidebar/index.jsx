@@ -11,6 +11,8 @@ import {
     Button,
     Divider,
     Stack,
+    Spacer,
+    Text,
 } from "@chakra-ui/react";
 import {
     FaBars,
@@ -29,6 +31,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logotype from "../Logotype";
 import { useContext } from "react";
 import authContext from "../../context/auth-context";
+import RegionModal from "../RegionModal";
 
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
@@ -83,10 +86,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
         navigate("/login");
     };
 
-    const selectRegionHandler = () => {
-        console.log("selectRegionHandler");
-    };
-
     return (
         <Box
             bg={useColorModeValue("white", "gray.800")}
@@ -116,25 +115,67 @@ const SidebarContent = ({ onClose, ...rest }) => {
                 </NavItem>
             ))}
             <Divider orientation="horizontal" />
-            <Flex
-                h={20}
-                alignItems="center"
-                mx={8}
-                justifyContent="space-between"
+            <Box
+                display="flex"
+                alignItems="left"
+                justifyContent="left"
+                width="100%"
             >
                 {ctx.token === "" ? (
-                    <div>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        width="100%"
+                    >
                         <Button onClick={loginHandler}>Log In</Button>
-                    </div>
+                    </Box>
                 ) : (
-                    <Stack direction="column" spacing={4}>
-                        <Button onClick={selectRegionHandler}>
-                            Select Region
-                        </Button>
-                        <Button onClick={ctx.onLogout}>Log Out</Button>
-                    </Stack>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        width="100%"
+                    >
+                        <Stack direction="column" spacing={6}>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
+                                <Flex
+                                    minWidth="min-content"
+                                    alignItems="left"
+                                    gap="1"
+                                >
+                                    <Spacer />
+                                    <RegionModal
+                                        buttonTitle={"Select Region"}
+                                        modalTitle={"Select Region"}
+                                    />
+                                </Flex>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
+                                <Text as="b">Region: {ctx.regionName}</Text>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
+                                <Button onClick={ctx.onLogout}>Log Out</Button>
+                            </Box>
+                        </Stack>
+                    </Box>
                 )}
-            </Flex>
+            </Box>
             <Divider orientation="horizontal" />
         </Box>
     );

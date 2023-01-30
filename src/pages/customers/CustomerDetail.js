@@ -14,7 +14,7 @@ export function CustomerDetail() {
 
     useEffect(() => {
         const getCustomer = async () => {
-            const customer = await getCustomerById(id, ctx.token);
+            const customer = await getCustomerById(id, ctx.baseUrl, ctx.token);
 
             const data = [
                 { label: "Company Name", value: customer.CompanyName },

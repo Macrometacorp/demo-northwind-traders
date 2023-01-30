@@ -63,6 +63,7 @@ export function Employees() {
                     page: currentPage,
                     pageSize,
                 },
+                ctx.baseUrl,
                 ctx.token,
             );
 
