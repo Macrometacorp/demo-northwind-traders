@@ -15,16 +15,19 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 export default function SelectRegion(props) {
     const ctx = useContext(AuthContext);
 
-    const [radioValue, setRadioValue] = useState("0");
+    const [radioValue, setRadioValue] = useState(ctx.baseUrl);
     const [regionInformation, setRegionInformation] = useState([]);
 
     const close = () => {
         props.closeModal();
-        ctx.onChangeRegion(
-            regionInformation[radioValue].regionName,
-            regionInformation[radioValue].regionUrl,
+        const getRegion = regionInformation.filter(
+            (data) => data.regionUrl === radioValue,
         );
-        setRadioValue(radioValue);
+        ctx.onChangeRegion(getRegion[0].regionName, radioValue);
+    };
+
+    const radioGroupChange = (value) => {
+        setRadioValue(value);
     };
 
     useEffect(() => {
@@ -47,7 +50,7 @@ export default function SelectRegion(props) {
             setRegionInformation(filterRegionData);
         };
         get().catch(console.error);
-    }, [ctx.email, ctx.token]);
+    }, [ctx.email, ctx.baseUrl, ctx.token]);
 
     return (
         <Box>
@@ -58,10 +61,10 @@ export default function SelectRegion(props) {
                 width="100%"
             >
                 <VStack spacing={2} align="stretch">
-                    <RadioGroup onChange={setRadioValue} value={radioValue}>
+                    <RadioGroup onChange={radioGroupChange} value={radioValue}>
                         <Stack direction="column">
                             {regionInformation.map((data, index) => (
-                                <Radio key={index} value={index.toString()}>
+                                <Radio key={index} value={data.regionUrl}>
                                     {data.regionName}
                                 </Radio>
                             ))}
