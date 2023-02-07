@@ -12,7 +12,7 @@ import {
 
 import MyTable from "../../components/MyTable";
 import Pagination from "../../components/Pagination";
-import MyModal from "../../components/MyModal";
+import ProductModal from "../../components/ProductModal";
 
 import {
     addProduct,
@@ -126,7 +126,7 @@ export function Products() {
                 Cell: (info) => {
                     return (
                         <Stack direction="row" spacing={4} align="center">
-                            <MyModal
+                            <ProductModal
                                 onUpdate={onUpdateProductData}
                                 buttonTitle={"Update"}
                                 modalTitle={"Update Product"}
@@ -179,11 +179,12 @@ export function Products() {
         get().catch(console.error);
     }, [currentPage, productsListChange, ctx.baseUrl, ctx.token]);
 
+
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
             <Flex minWidth="min-content" alignItems="left" gap="1">
                 <Spacer />
-                <MyModal
+                <ProductModal
                     onSave={onSaveProductData}
                     buttonTitle={"Add Product"}
                     modalTitle={"Add Product"}

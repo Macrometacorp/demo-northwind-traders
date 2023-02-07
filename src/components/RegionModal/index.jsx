@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
     Button,
     useDisclosure,
@@ -15,16 +14,9 @@ import SelectRegion from "../SelectRegion";
 export default function RegionModal(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const [modalButtonClicked, setModalButtonClicked] = useState(false);
-
-    const modalOpened = () => {
-        setModalButtonClicked(true);
-        onOpen();
-    };
-
     return (
         <Box>
-            <Button variant="solid" onClick={modalOpened}>
+            <Button variant="solid" onClick={onOpen}>
                 {props.buttonTitle}
             </Button>
             <Modal

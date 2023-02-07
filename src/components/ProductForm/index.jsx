@@ -114,7 +114,6 @@ export default function ProductForm(props) {
         props.categories,
         props.dataKey,
         props.suppliers,
-        props.buttonClicked,
         ctx.baseUrl,
         ctx.token,
     ]);

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
     Button,
     useDisclosure,
@@ -13,19 +12,12 @@ import {
 
 import ProductForm from "../ProductForm";
 
-export default function MyModal(props) {
+export default function ProductModal(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const [modalButtonClicked, setModalButtonClicked] = useState(false);
-
-    const modalOpened = () => {
-        setModalButtonClicked(true);
-        onOpen();
-    };
 
     return (
         <Box>
-            <Button variant="solid" onClick={modalOpened}>
+            <Button variant="solid" onClick={onOpen}>
                 {props.buttonTitle}
             </Button>
             <Modal
@@ -45,7 +37,6 @@ export default function MyModal(props) {
                             dataKey={props.dataKey}
                             categories={props.categories}
                             suppliers={props.suppliers}
-                            buttonClicked={modalButtonClicked}
                             buttonTitle={props.buttonTitle}
                         />
                     </ModalBody>
