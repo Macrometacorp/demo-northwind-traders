@@ -75,7 +75,7 @@ export function Products() {
 
     const onDeleteProductData = (key) => {
         const add = async () => {
-            await deleteProduct(key, ctx.token);
+            await deleteProduct(key, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
