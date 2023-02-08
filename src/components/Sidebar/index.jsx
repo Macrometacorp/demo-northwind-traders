@@ -31,7 +31,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logotype from "../Logotype";
 import { useContext } from "react";
 import authContext from "../../context/auth-context";
-import RegionModal from "../RegionModal";
+import CustomModal from "../CustomModal";
 
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
@@ -150,7 +150,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
                                     gap="1"
                                 >
                                     <Spacer />
-                                    <RegionModal
+                                    <CustomModal
+                                        selectRegion={true}
                                         buttonTitle={"Select Region"}
                                         modalTitle={"Select Region"}
                                     />

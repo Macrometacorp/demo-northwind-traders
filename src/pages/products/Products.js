@@ -12,7 +12,6 @@ import {
 
 import MyTable from "../../components/MyTable";
 import Pagination from "../../components/Pagination";
-import ProductModal from "../../components/ProductModal";
 
 import {
     addProduct,
@@ -23,6 +22,7 @@ import {
     updateProduct,
 } from "../../services";
 import authContext from "../../context/auth-context";
+import CustomModal from "../../components/CustomModal";
 
 function GetProductDataType(data) {
     return {
@@ -126,7 +126,8 @@ export function Products() {
                 Cell: (info) => {
                     return (
                         <Stack direction="row" spacing={4} align="center">
-                            <ProductModal
+                            <CustomModal
+                                productForm={true}
                                 onUpdate={onUpdateProductData}
                                 buttonTitle={"Update"}
                                 modalTitle={"Update Product"}
@@ -146,7 +147,7 @@ export function Products() {
                     );
                 },
             },
-        ],
+        ],// eslint-disable-next-line react-hooks/exhaustive-deps
         [categories, suppliers],
     );
 
@@ -184,7 +185,8 @@ export function Products() {
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
             <Flex minWidth="min-content" alignItems="left" gap="1">
                 <Spacer />
-                <ProductModal
+                <CustomModal
+                    productForm={true}
                     onSave={onSaveProductData}
                     buttonTitle={"Add Product"}
                     modalTitle={"Add Product"}
@@ -202,3 +204,5 @@ export function Products() {
         </Box>
     );
 }
+
+

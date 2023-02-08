@@ -5,14 +5,13 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalCloseButton,
     ModalBody,
     Box,
 } from "@chakra-ui/react";
-
+import SelectRegion from "../SelectRegion";
 import ProductForm from "../ProductForm";
 
-export default function ProductModal(props) {
+export default function CustomModal(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -28,17 +27,21 @@ export default function ProductModal(props) {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>{props.modalTitle}</ModalHeader>
-                    <ModalCloseButton />
                     <ModalBody>
-                        <ProductForm
-                            closeModal={onClose}
-                            onUpdate={props.onUpdate}
-                            onSave={props.onSave}
-                            dataKey={props.dataKey}
-                            categories={props.categories}
-                            suppliers={props.suppliers}
-                            buttonTitle={props.buttonTitle}
-                        />
+                        {props.selectRegion && (
+                            <SelectRegion closeModal={onClose}></SelectRegion>
+                        )}
+                        {props.productForm && (
+                            <ProductForm
+                                closeModal={onClose}
+                                onUpdate={props.onUpdate}
+                                onSave={props.onSave}
+                                dataKey={props.dataKey}
+                                categories={props.categories}
+                                suppliers={props.suppliers}
+                                buttonTitle={props.buttonTitle}
+                            />
+                        )}
                     </ModalBody>
                 </ModalContent>
             </Modal>
