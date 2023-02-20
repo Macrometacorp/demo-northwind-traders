@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
     Box,
     Flex,
@@ -16,11 +16,14 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 import { runSearch } from "../services";
+import authContext from "../context/auth-context";
 
 const SEARCH_PRODUCT_FUNCTION = "search-product";
 const SEARCH_CUSTOMER_FUNCTION = "search-customer";
 
 export default function Search() {
+    const ctx = useContext(authContext);
+
     const [keyword, setKeyword] = useState("");
     const [functionName, setFunctionName] = useState(SEARCH_PRODUCT_FUNCTION);
     const [results, setResults] = useState([]);
@@ -39,13 +42,18 @@ export default function Search() {
         }
 
         const search = async () => {
-            const results = await runSearch(functionName, {
-                keyword: keyword.toLowerCase(),
-            });
+            const results = await runSearch(
+                functionName,
+                {
+                    keyword: keyword.toLowerCase(),
+                },
+                ctx.baseUrl,
+                ctx.token,
+            );
             setResults(results);
         };
         search().catch(console.error);
-    }, [keyword, functionName]);
+    }, [keyword, functionName, ctx.baseUrl, ctx.token]);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">

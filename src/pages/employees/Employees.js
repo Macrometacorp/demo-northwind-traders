@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 
 import MyTable from "../../components/MyTable";
 import Pagination from "../../components/Pagination";
 import { getEmployees } from "../../services";
+import authContext from "../../context/auth-context";
 
 export function Employees() {
+    const ctx = useContext(authContext);
+
     const columns = useMemo(
         () => [
             {
@@ -55,16 +58,20 @@ export function Employees() {
 
     useEffect(() => {
         const get = async () => {
-            const _employees = await getEmployees({
-                page: currentPage,
-                pageSize,
-            });
+            const _employees = await getEmployees(
+                {
+                    page: currentPage,
+                    pageSize,
+                },
+                ctx.baseUrl,
+                ctx.token,
+            );
 
             setEmployees(_employees);
         };
 
         get().catch(console.error);
-    }, [currentPage]);
+    }, [currentPage, ctx.token]);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">

@@ -8,6 +8,11 @@ import {
     Drawer,
     DrawerContent,
     useDisclosure,
+    Button,
+    Divider,
+    Stack,
+    Spacer,
+    Text,
 } from "@chakra-ui/react";
 import {
     FaBars,
@@ -21,12 +26,15 @@ import {
     FaSearch,
 } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Logotype from "../Logotype";
+import { useContext } from "react";
+import authContext from "../../context/auth-context";
+import CustomModal from "../CustomModal";
 
 const LinkItems = [
-    { name: "Home", icon: FaHome, path: "/" },
+    { name: "Home", icon: FaHome, path: "/home" },
     //{ name: "Dashboard", icon: FaTachometerAlt, path: "/dashboard" },
     { name: "Suppliers", icon: FaTruckLoading, path: "/suppliers" },
     { name: "Products", icon: FaBox, path: "/products" },
@@ -70,6 +78,14 @@ export default function Sidebar({ children }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+    const ctx = useContext(authContext);
+
+    const navigate = useNavigate();
+
+    const loginHandler = () => {
+        navigate("/login");
+    };
+
     return (
         <Box
             bg={useColorModeValue("white", "gray.800")}
@@ -92,11 +108,76 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     onClick={onClose}
                 />
             </Flex>
+            <Divider orientation="horizontal" />
             {LinkItems.map((link) => (
                 <NavItem key={link.name} icon={link.icon} path={link.path}>
                     {link.name}
                 </NavItem>
             ))}
+            <Divider orientation="horizontal" />
+            <Box
+                display="flex"
+                alignItems="left"
+                justifyContent="left"
+                width="100%"
+            >
+                {ctx.token === "" ? (
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        width="100%"
+                    >
+                        <Button onClick={loginHandler}>Log In</Button>
+                    </Box>
+                ) : (
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        width="100%"
+                    >
+                        <Stack direction="column" spacing={6}>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
+                                <Flex
+                                    minWidth="min-content"
+                                    alignItems="left"
+                                    gap="1"
+                                >
+                                    <Spacer />
+                                    <CustomModal
+                                        selectRegion={true}
+                                        buttonTitle={"Select Region"}
+                                        modalTitle={"Select Region"}
+                                    />
+                                </Flex>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
+                                <Text as="b">Region: {ctx.regionName}</Text>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
+                                <Button onClick={ctx.onLogout}>Log Out</Button>
+                            </Box>
+                        </Stack>
+                    </Box>
+                )}
+            </Box>
+            <Divider orientation="horizontal" />
         </Box>
     );
 };

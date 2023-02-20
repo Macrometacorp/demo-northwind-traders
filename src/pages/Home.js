@@ -32,9 +32,7 @@ function Home() {
             <Text fontSize="lg">
                 Northwind Traders has become a "Hello World" example for any
                 database, and this demo shows that we can have that data
-                distributed across more than 175 locations globally. Integration
-                with Akamai Edge Workers delivers data closer to the users,
-                cutting down latency times.
+                distributed across more than 175 locations globally.
             </Text>
             <Text fontSize="lg" my={4}>
                 This application architecture enables developers to build truly

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     Box,
@@ -12,7 +12,6 @@ import {
 
 import MyTable from "../../components/MyTable";
 import Pagination from "../../components/Pagination";
-import MyModal from "../../components/MyModal";
 
 import {
     addProduct,
@@ -22,6 +21,8 @@ import {
     getProducts,
     updateProduct,
 } from "../../services";
+import authContext from "../../context/auth-context";
+import CustomModal from "../../components/CustomModal";
 
 function GetProductDataType(data) {
     return {
@@ -38,9 +39,10 @@ function GetProductDataType(data) {
 }
 
 export function Products() {
+    const ctx = useContext(authContext);
+
     const [suppliers, setSuppliers] = useState([]);
     const [categories, setCategories] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
 
@@ -54,7 +56,7 @@ export function Products() {
     const onUpdateProductData = (data) => {
         const productData = GetProductDataType(data);
         const update = async () => {
-            await updateProduct(productData, data.key);
+            await updateProduct(productData, data.key, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         update().catch(console.error);
@@ -64,7 +66,7 @@ export function Products() {
     const onSaveProductData = (data) => {
         const productData = GetProductDataType(data);
         const add = async () => {
-            await addProduct(productData);
+            await addProduct(productData, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -73,7 +75,7 @@ export function Products() {
 
     const onDeleteProductData = (key) => {
         const add = async () => {
-            await deleteProduct(key);
+            await deleteProduct(key, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -124,7 +126,8 @@ export function Products() {
                 Cell: (info) => {
                     return (
                         <Stack direction="row" spacing={4} align="center">
-                            <MyModal
+                            <CustomModal
+                                productForm={true}
                                 onUpdate={onUpdateProductData}
                                 buttonTitle={"Update"}
                                 modalTitle={"Update Product"}
@@ -144,40 +147,46 @@ export function Products() {
                     );
                 },
             },
-        ],
+        ],// eslint-disable-next-line react-hooks/exhaustive-deps
         [categories, suppliers],
     );
 
     useEffect(() => {
         const getSuppliers = async () => {
-            const _suppliers = await getAllSuppliers();
+            const _suppliers = await getAllSuppliers(ctx.baseUrl, ctx.token);
             setSuppliers(_suppliers);
         };
         getSuppliers().catch(console.error);
 
         const getCategories = async () => {
-            const _categories = await getAllCategories();
+            const _categories = await getAllCategories(ctx.baseUrl, ctx.token);
             setCategories(_categories);
         };
         getCategories().catch(console.error);
-    }, []);
+    }, [ctx.baseUrl, ctx.token]);
 
     useEffect(() => {
         const get = async () => {
-            const _products = await getProducts({
-                page: currentPage,
-                pageSize,
-            });
+            const _products = await getProducts(
+                {
+                    page: currentPage,
+                    pageSize,
+                },
+                ctx.baseUrl,
+                ctx.token,
+            );
             setProducts(_products);
         };
         get().catch(console.error);
-    }, [currentPage, productsListChange]);
+    }, [currentPage, productsListChange, ctx.baseUrl, ctx.token]);
+
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
             <Flex minWidth="min-content" alignItems="left" gap="1">
                 <Spacer />
-                <MyModal
+                <CustomModal
+                    productForm={true}
                     onSave={onSaveProductData}
                     buttonTitle={"Add Product"}
                     modalTitle={"Add Product"}
@@ -195,3 +204,5 @@ export function Products() {
         </Box>
     );
 }
+
+

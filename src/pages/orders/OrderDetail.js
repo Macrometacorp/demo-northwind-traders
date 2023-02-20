@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import DetailCard from "../../components/DetailCard";
 import { OrderProducts } from "./OrderProducts";
 import { getOrderById } from "../../services";
+import authContext from "../../context/auth-context";
 
 export function OrderDetail() {
+    const ctx = useContext(authContext);
+
     const [order, setOrder] = useState([]);
     const [products, setProducts] = useState([]);
 
@@ -13,7 +16,11 @@ export function OrderDetail() {
 
     useEffect(() => {
         const getOrder = async () => {
-            const order = await getOrderById(Number(id));
+            const order = await getOrderById(
+                Number(id),
+                ctx.baseUrl,
+                ctx.token,
+            );
             setProducts([...order.Products.List]);
 
             const data = [
@@ -53,7 +60,7 @@ export function OrderDetail() {
             setOrder(data);
         };
         getOrder().catch(console.error);
-    }, [id]);
+    }, [id, ctx.token]);
 
     return (
         <>
