@@ -32,7 +32,7 @@ export function CustomerDetail() {
             setCustomer(data);
         };
         getCustomer().catch(console.error);
-    }, [id, ctx.token]);
+    }, [id, ctx.token, ctx.baseUrl]);
 
     return (
         <DetailCard

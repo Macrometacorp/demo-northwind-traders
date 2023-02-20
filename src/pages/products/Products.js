@@ -4,6 +4,8 @@ import {
     Box,
     Button,
     Flex,
+    ListItem,
+    OrderedList,
     Spacer,
     Stack,
     Text,
@@ -14,17 +16,17 @@ import MyTable from "../../components/MyTable";
 import Pagination from "../../components/Pagination";
 
 import {
-    addProduct,
-    deleteProduct,
+    addProductData,
+    deleteProductData,
     getAllCategories,
     getAllSuppliers,
     getProducts,
-    updateProduct,
+    updateProductData,
 } from "../../services";
 import authContext from "../../context/auth-context";
 import CustomModal from "../../components/CustomModal";
 
-function GetProductDataType(data) {
+function getProductDataInstance(data) {
     return {
         CategoryID: +data.category,
         Discontinued: "0",
@@ -50,13 +52,13 @@ export function Products() {
         totalDocuments: 0,
         data: [],
     });
-
     const [productsListChange, setProductsListChange] = useState(false);
 
     const onUpdateProductData = (data) => {
-        const productData = GetProductDataType(data);
+        const productData = getProductDataInstance(data);
+        productData["_key"] = data.key;
         const update = async () => {
-            await updateProduct(productData, data.key, ctx.baseUrl, ctx.token);
+            await updateProductData(productData, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         update().catch(console.error);
@@ -64,9 +66,9 @@ export function Products() {
     };
 
     const onSaveProductData = (data) => {
-        const productData = GetProductDataType(data);
+        const productData = getProductDataInstance(data);
         const add = async () => {
-            await addProduct(productData, ctx.baseUrl, ctx.token);
+            await addProductData(productData, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -75,7 +77,8 @@ export function Products() {
 
     const onDeleteProductData = (key) => {
         const add = async () => {
-            await deleteProduct(key, ctx.baseUrl, ctx.token);
+            const productData = { _key: key };
+            await deleteProductData(productData, ctx.baseUrl, ctx.token);
             setProductsListChange(true);
         };
         add().catch(console.error);
@@ -147,7 +150,7 @@ export function Products() {
                     );
                 },
             },
-        ],// eslint-disable-next-line react-hooks/exhaustive-deps
+        ], // eslint-disable-next-line react-hooks/exhaustive-deps
         [categories, suppliers],
     );
 
@@ -180,29 +183,73 @@ export function Products() {
         get().catch(console.error);
     }, [currentPage, productsListChange, ctx.baseUrl, ctx.token]);
 
-
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
-            <Flex minWidth="min-content" alignItems="left" gap="1">
-                <Spacer />
-                <CustomModal
-                    productForm={true}
-                    onSave={onSaveProductData}
-                    buttonTitle={"Add Product"}
-                    modalTitle={"Add Product"}
-                    categories={categories}
-                    suppliers={suppliers}
-                />
-            </Flex>
-            <MyTable title="Products" columns={columns} data={products.data} />
-            <Pagination
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalItems={products.totalDocuments}
-                ItemsPerPage={pageSize}
-            />
+            {products.totalDocuments > 0 && (
+                <Box>
+                    <Flex minWidth="min-content" alignItems="left" gap="1">
+                        <Spacer />
+                        <CustomModal
+                            productForm={true}
+                            onSave={onSaveProductData}
+                            buttonTitle={"Add Product"}
+                            modalTitle={"Add Product"}
+                            categories={categories}
+                            suppliers={suppliers}
+                        />
+                    </Flex>
+                    <MyTable
+                        title="Products"
+                        columns={columns}
+                        data={products.data}
+                    />
+                    <Pagination
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalItems={products.totalDocuments}
+                        ItemsPerPage={pageSize}
+                    />
+                </Box>
+            )}
+            {products.totalDocuments === 0 && (
+                <Box>
+                    <Text fontSize="lg" as="b">
+                        No products found ! We apologize, but it seems that no
+                        products have been found in the Macrometa GDN. 😓
+                    </Text>
+                    <Text fontSize="lg" my={4}>
+                        To populate the GDN, please follow these steps:
+                    </Text>
+                    <OrderedList spacing={3} my={4}>
+                        <ListItem fontSize="lg">
+                            Create a new document store collection called
+                            "products.".
+                        </ListItem>
+                        <ListItem fontSize="lg">
+                            Import the data from the "products.json" file into
+                            the newly created collection.
+                        </ListItem>
+                        <ListItem fontSize="lg">
+                            Create additional document store collections for
+                            "categories" and "suppliers."
+                        </ListItem>
+                        <ListItem fontSize="lg">
+                            Import categories.json and suppliers.json to the
+                            created collections.
+                        </ListItem>
+                        <ListItem fontSize="lg">
+                            Import the corresponding data from "categories.json"
+                            and "suppliers.json" into their respective
+                            collections.
+                        </ListItem>
+                        <ListItem fontSize="lg">
+                            Finally, navigate to the Query Workers section and
+                            import the queries from "ImportQueryWorker.json" to
+                            begin querying the GDN."
+                        </ListItem>
+                    </OrderedList>
+                </Box>
+            )}
         </Box>
     );
 }
-
-

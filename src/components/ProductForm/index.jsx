@@ -11,7 +11,7 @@ import {
     Select,
     VStack,
 } from "@chakra-ui/react";
-import { GetDocumentData } from "../../services";
+import { getProductData } from "../../services";
 import authContext from "../../context/auth-context";
 
 export default function ProductForm(props) {
@@ -86,13 +86,11 @@ export default function ProductForm(props) {
     useEffect(() => {
         if (props.dataKey) {
             const get = async () => {
-                const response = await GetDocumentData(
-                    "products",
-                    props.dataKey,
+                const response = await getProductData(
+                    {_key: props.dataKey},
                     ctx.baseUrl,
                     ctx.token,
                 );
-
                 const filteredSuppliers = props.suppliers.filter((supplier) => {
                     return supplier.key === response.SupplierID.toString();
                 });

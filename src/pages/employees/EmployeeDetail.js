@@ -46,7 +46,7 @@ export function EmployeeDetail() {
             setEmployee(data);
         };
         getEmployee().catch(console.error);
-    }, [id, ctx.token]);
+    }, [id, ctx.token, ctx.baseUrl]);
 
     return (
         <DetailCard

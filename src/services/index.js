@@ -1,7 +1,7 @@
 const FABRIC = process.env.REACT_APP_FABRIC_NAME;
 
 async function invokeFunction(functionName, params, baseUrl, token) {
-    const queryData = await GetQueryWorkerData(
+    const queryData = await getQueryWorkerData(
         functionName,
         params,
         baseUrl,
@@ -17,7 +17,7 @@ async function invokeFunction(functionName, params, baseUrl, token) {
     return data;
 }
 
-async function GetQueryWorkerData(functionName, params, baseUrl, token) {
+async function getQueryWorkerData(functionName, params, baseUrl, token) {
     const response = await fetch(
         `${baseUrl}/_fabric/${FABRIC}/_api/restql/execute/${functionName}`,
         {
@@ -35,49 +35,20 @@ async function GetQueryWorkerData(functionName, params, baseUrl, token) {
     return await response.json();
 }
 
-async function addProductData(collectionName, params, baseUrl, token) {
-    const response = await fetch(
-        `${baseUrl}/_fabric/${FABRIC}/_api/document/${collectionName}`,
-        {
-            method: "POST",
-            headers: {
-                Authorization: `bearer ${token}`,
-                accept: "application/json",
-            },
-            body: JSON.stringify(params),
-        },
-    );
-    return await response.json();
+export async function addProductData(params, baseUrl, token) {
+    return await invokeFunction("add-product", params, baseUrl, token)
 }
 
-async function updateProductData(collectionName, params, key, baseUrl, token) {
-    const response = await fetch(
-        `${baseUrl}/_fabric/${FABRIC}/_api/document/${collectionName}/${key}`,
-        {
-            method: "PATCH",
-            headers: {
-                Authorization: `bearer ${token}`,
-                accept: "application/json",
-            },
-            body: JSON.stringify(params),
-        },
-    );
-    return await response.json();
+export async function getProductData(params, baseUrl, token) {
+    return await invokeFunction("get-product", params, baseUrl, token);
 }
 
-async function deleteProductData(collectionName, key, baseUrl, token) {
-    const response = await fetch(
-        `${baseUrl}/_fabric/${FABRIC}/_api/document/${collectionName}/${key}`,
-        {
-            method: "DELETE",
-            headers: {
-                Authorization: `bearer ${token}`,
-                accept: "application/json",
-            },
-            body: "",
-        },
-    );
-    return await response.json();
+export async function updateProductData(params, baseUrl, token) {
+    return await invokeFunction("update-product", params, baseUrl, token)
+}
+
+export async function deleteProductData(params, baseUrl, token) {
+    return await invokeFunction("delete-product", params, baseUrl, token)
 }
 
 export async function getSuppliers({ page, pageSize }, baseUrl, token) {
@@ -124,17 +95,17 @@ export async function getProductById(id, baseUrl, token) {
     );
 }
 
-export async function addProduct(data, baseUrl, token) {
-    return await addProductData("products", data, baseUrl, token);
-}
-
-export async function updateProduct(data, key, baseUrl, token) {
-    return await updateProductData("products", data, key, baseUrl, token);
-}
-
-export async function deleteProduct(key, baseUrl, token) {
-    return await deleteProductData("products", key, baseUrl, token);
-}
+// export async function addProduct(data, baseUrl, token) {
+//     return await addProductData("products", data, baseUrl, token);
+// }
+//
+// export async function updateProduct(data, baseUrl, token) {
+//     return await updateProductData("products", data, key, baseUrl, token);
+// }
+//
+// export async function deleteProduct(key, baseUrl, token) {
+//     return await deleteProductData("products", key, baseUrl, token);
+// }
 
 export async function getOrders({ page, pageSize }, baseUrl, token) {
     const params = {
@@ -146,7 +117,11 @@ export async function getOrders({ page, pageSize }, baseUrl, token) {
 }
 
 export async function getOrderById(id, baseUrl, token) {
-    return await invokeFunction("get-order-info", { key: id }, baseUrl, token);
+    return await invokeFunction(
+        "get-order-info",
+        { key: id },
+        baseUrl,
+        token);
 }
 
 export async function getCustomers({ page, pageSize }, baseUrl, token) {
@@ -186,22 +161,8 @@ export async function getEmployeeById(id, baseUrl, token) {
 }
 
 export async function runSearch(functionName, params, baseUrl, token) {
-    const data = await GetQueryWorkerData(functionName, params, baseUrl, token);
+    const data = await getQueryWorkerData(functionName, params, baseUrl, token);
     return data.result;
-}
-
-export async function GetDocumentData(collection, key, baseUrl, token) {
-    const response = await fetch(
-        `${baseUrl}/_fabric/${FABRIC}/_api/document/${collection}/${key}`,
-        {
-            method: "GET",
-            headers: {
-                Authorization: `bearer ${token}`,
-                accept: "application/json",
-            },
-        },
-    );
-    return await response.json();
 }
 
 export async function GetJwtToken(params, baseUrl) {

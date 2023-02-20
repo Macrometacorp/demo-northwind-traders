@@ -43,6 +43,7 @@ export default function SelectRegion(props) {
                     regionUrl: `https://${data.tags.api}`,
                 };
             });
+            console.log(filterRegionData);
             filterRegionData.unshift({
                 regionName: "GLOBAL",
                 regionUrl: BASE_URL,

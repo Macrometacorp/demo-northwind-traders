@@ -18,11 +18,11 @@ import {
     FaBars,
     FaHome,
     //FaTachometerAlt,
-    FaTruckLoading,
+    //FaTruckLoading,
     FaBox,
-    FaShoppingCart,
-    FaIdBadge,
-    FaUserFriends,
+    //FaShoppingCart,
+    //FaIdBadge,
+    //FaUserFriends,
     FaSearch,
 } from "react-icons/fa";
 
@@ -33,15 +33,16 @@ import { useContext } from "react";
 import authContext from "../../context/auth-context";
 import CustomModal from "../CustomModal";
 
+//todo: Modified because of Getting Started tutorial
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
     //{ name: "Dashboard", icon: FaTachometerAlt, path: "/dashboard" },
-    { name: "Suppliers", icon: FaTruckLoading, path: "/suppliers" },
+    //{ name: "Suppliers", icon: FaTruckLoading, path: "/suppliers" },
     { name: "Products", icon: FaBox, path: "/products" },
-    { name: "Orders", icon: FaShoppingCart, path: "/orders" },
-    { name: "Employees", icon: FaIdBadge, path: "/employees" },
-    { name: "Customers", icon: FaUserFriends, path: "/customers" },
-    { name: "Search", icon: FaSearch, path: "/search" },
+    //{ name: "Orders", icon: FaShoppingCart, path: "/orders" },
+    //{ name: "Employees", icon: FaIdBadge, path: "/employees" },
+    //{ name: "Customers", icon: FaUserFriends, path: "/customers" },
+    //{ name: "Search", icon: FaSearch, path: "/search" },
 ];
 
 export default function Sidebar({ children }) {

@@ -60,7 +60,7 @@ export function OrderDetail() {
             setOrder(data);
         };
         getOrder().catch(console.error);
-    }, [id, ctx.token]);
+    }, [id, ctx.token, ctx.baseUrl]);
 
     return (
         <>

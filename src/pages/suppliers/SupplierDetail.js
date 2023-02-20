@@ -31,12 +31,13 @@ export function SupplierDetail() {
             setSupplier(data);
         };
         getSupplier().catch(console.error);
-    }, [id, ctx.token]);
+    }, [id, ctx.token, ctx.baseUrl]);
 
+    //todo: Modified because of Getting Started tutorial
     return (
         <DetailCard
             title="Supplier Information"
-            goBackPath="/suppliers"
+            goBackPath="/products"
             data={supplier}
         />
     );

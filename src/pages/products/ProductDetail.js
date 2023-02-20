@@ -37,7 +37,7 @@ export function ProductDetail() {
             setProduct(data);
         };
         getProduct().catch(console.error);
-    }, [id, ctx.token]);
+    }, [id, ctx.token, ctx.baseUrl]);
 
     return (
         <DetailCard
