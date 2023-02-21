@@ -192,6 +192,7 @@ export function Products() {
                                 dataKey={info.row.original._key}
                             />
                             <Button
+                                colorScheme='red'
                                 variant="solid"
                                 onClick={() =>
                                     onDeleteProductData(info.row.original._key)

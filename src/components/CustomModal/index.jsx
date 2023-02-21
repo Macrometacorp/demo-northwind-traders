@@ -8,6 +8,9 @@ import {
     ModalBody,
     Box,
 } from "@chakra-ui/react";
+import {
+    BiWorld,
+} from "react-icons/bi";
 import SelectRegion from "../SelectRegion";
 import ProductForm from "../ProductForm";
 
@@ -16,9 +19,16 @@ export default function CustomModal(props) {
 
     return (
         <Box>
-            <Button variant="solid" onClick={onOpen}>
-                {props.buttonTitle}
-            </Button>
+            {props.selectRegion && (
+                <Button leftIcon={<BiWorld />} variant="solid" onClick={onOpen}>
+                    {props.buttonTitle}
+                </Button>
+            )}
+            {!props.selectRegion && (
+                <Button variant="solid" onClick={onOpen}>
+                    {props.buttonTitle}
+                </Button>
+            )}
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}

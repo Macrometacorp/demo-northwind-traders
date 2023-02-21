@@ -6,9 +6,10 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
-    Radio,
-    RadioGroup,
-    Stack,
+    // todo: Modified because of Getting Started tutorial
+    // Radio,
+    // RadioGroup,
+    // Stack,
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
@@ -19,7 +20,8 @@ import { runSearch } from "../services";
 import authContext from "../context/auth-context";
 
 const SEARCH_PRODUCT_FUNCTION = "search-product";
-const SEARCH_CUSTOMER_FUNCTION = "search-customer";
+// todo: Modified because of Getting Started tutorial
+// const SEARCH_CUSTOMER_FUNCTION = "search-customer";
 
 export default function Search() {
     const ctx = useContext(authContext);
@@ -30,16 +32,21 @@ export default function Search() {
 
     const debouncedSetKeyword = debounce(setKeyword, 400);
 
-    const handleRadioChange = (value) => {
-        setResults([]);
-        setFunctionName(value);
-    };
+    // todo: Modified because of Getting Started tutorial
+    // const handleRadioChange = (value) => {
+    //     setResults([]);
+    //     setFunctionName(value);
+    // };
 
     useEffect(() => {
         if (!keyword) {
             setResults([]);
             return;
         }
+
+        // todo: Modified because of Getting Started tutorial
+        // This line is not needed because in real use-case
+        setFunctionName(SEARCH_PRODUCT_FUNCTION);
 
         const search = async () => {
             const results = await runSearch(
@@ -76,23 +83,24 @@ export default function Search() {
                 />
             </InputGroup>
 
+            {/* todo: Modified because of Getting Started tutorial */}
             {/* Collection Options */}
-            <Box my={6}>
-                <Heading size="sm">Collections</Heading>
+            {/*<Box my={6}>*/}
+            {/*    <Heading size="sm">Collections</Heading>*/}
 
-                <RadioGroup
-                    mt={2}
-                    onChange={handleRadioChange}
-                    value={functionName}
-                >
-                    <Stack direction="row" gap={4}>
-                        <Radio value={SEARCH_PRODUCT_FUNCTION}>Products</Radio>
-                        <Radio value={SEARCH_CUSTOMER_FUNCTION}>
-                            Customers
-                        </Radio>
-                    </Stack>
-                </RadioGroup>
-            </Box>
+            {/*    <RadioGroup*/}
+            {/*        mt={2}*/}
+            {/*        onChange={handleRadioChange}*/}
+            {/*        value={functionName}*/}
+            {/*    >*/}
+            {/*        <Stack direction="row" gap={4}>*/}
+            {/*            <Radio value={SEARCH_PRODUCT_FUNCTION}>Products</Radio>*/}
+            {/*            <Radio value={SEARCH_CUSTOMER_FUNCTION}>*/}
+            {/*                Customers*/}
+            {/*            </Radio>*/}
+            {/*        </Stack>*/}
+            {/*    </RadioGroup>*/}
+            {/*</Box>*/}
 
             {/* Search Results */}
             <Box mt={6}>

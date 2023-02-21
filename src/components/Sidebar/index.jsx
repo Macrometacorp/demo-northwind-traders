@@ -23,8 +23,13 @@ import {
     //FaShoppingCart,
     //FaIdBadge,
     //FaUserFriends,
+    // todo: Uncomment this line when you're ready to add the Search page
     //FaSearch,
 } from "react-icons/fa";
+import {
+    BiLogOut,
+    BiLogIn
+} from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -131,7 +136,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                         justifyContent="center"
                         width="100%"
                     >
-                        <Button onClick={loginHandler}>Log In</Button>
+                        <Button leftIcon={<BiLogIn />} onClick={loginHandler}>Log In</Button>
                     </Box>
                 ) : (
                     <Box
@@ -174,7 +179,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                                 justifyContent="center"
                                 width="100%"
                             >
-                                <Button onClick={ctx.onLogout}>Log Out</Button>
+                                <Button leftIcon={<BiLogOut />} onClick={ctx.onLogout}>Log Out</Button>
                             </Box>
                         </Stack>
                     </Box>
