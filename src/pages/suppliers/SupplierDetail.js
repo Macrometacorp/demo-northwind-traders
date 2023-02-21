@@ -33,7 +33,7 @@ export function SupplierDetail() {
         getSupplier().catch(console.error);
     }, [id, ctx.token, ctx.baseUrl]);
 
-    //todo: Modified because of Getting Started tutorial
+    // todo: Modified because of Getting Started tutorial
     return (
         <DetailCard
             title="Supplier Information"

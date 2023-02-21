@@ -10,6 +10,7 @@ import {
     Stack,
     Text,
     useColorModeValue,
+    useToast,
 } from "@chakra-ui/react";
 
 import MyTable from "../../components/MyTable";
@@ -54,6 +55,10 @@ export function Products() {
     });
     const [productsListChange, setProductsListChange] = useState(false);
 
+    const toast = useToast();
+    const changeToastId = "change-toast-id";
+    const deleteToastId = "delete-toast-id";
+
     const onUpdateProductData = (data) => {
         const productData = getProductDataInstance(data);
         productData["_key"] = data.key;
@@ -79,10 +84,58 @@ export function Products() {
         const add = async () => {
             const productData = { _key: key };
             await deleteProductData(productData, ctx.baseUrl, ctx.token);
+            if (!toast.isActive(deleteToastId)) {
+                toast({
+                    id: changeToastId,
+                    title: "Product deleted.",
+                    position: "top-right",
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
             setProductsListChange(true);
         };
         add().catch(console.error);
         setProductsListChange(false);
+    };
+
+    const establishStreamConsumerConnection = async () => {
+        try {
+            const otpConsumer = await fetch(`${ctx.baseUrl}/apid/otp`, {
+                method: "POST",
+                headers: {
+                    Authorization: `bearer ${ctx.token}`,
+                    accept: "application/json",
+                },
+            });
+            const otp = await otpConsumer.json();
+            const consumerUrl = `wss://${ctx.baseUrl.replace(
+                "https://",
+                "",
+            )}/_ws/ws/v2/reader/persistent/${ctx.email.replace(
+                "@",
+                "_",
+            )}/c8local._system/products?otp=${otp.otp}`;
+            const consumer = new WebSocket(consumerUrl);
+            consumer.onmessage = (event) => {
+                // It is possible to get payload and messageId from the event.data
+                //const { payload, messageId } = JSON.parse(event.data);
+                setProductsListChange(true);
+                if (!toast.isActive(changeToastId)) {
+                    toast({
+                        id: changeToastId,
+                        title: "Products list updated.",
+                        position: "top-right",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                }
+            };
+        } catch (error) {
+            console.error("error", error);
+        }
     };
 
     const columns = useMemo(
@@ -181,7 +234,16 @@ export function Products() {
             setProducts(_products);
         };
         get().catch(console.error);
+        setProductsListChange(false);
     }, [currentPage, productsListChange, ctx.baseUrl, ctx.token]);
+
+    useEffect(() => {
+        const init = async () => {
+            await establishStreamConsumerConnection();
+        };
+        init().catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
@@ -226,16 +288,22 @@ export function Products() {
                             "products.".
                         </ListItem>
                         <ListItem fontSize="lg">
-                            Import the data from the "products.json" file into
-                            the newly created collection.
+                            Import the data from the "products.json" file
+                            located in the `ExtraFiles` folder in this project
+                            into the newly created collection. Before you
+                            confirm make sure you select `ProductID` as the key.
                         </ListItem>
                         <ListItem fontSize="lg">
                             Create additional document store collections for
                             "categories" and "suppliers."
                         </ListItem>
                         <ListItem fontSize="lg">
-                            Import categories.json and suppliers.json to the
-                            created collections.
+                            Import categories.json and suppliers.json files
+                            located in the `ExtraFiles` folder in this project
+                            to the created collections. Before you confirm make
+                            sure you select `CategoryID` as the key for
+                            categories and `SupplierID` as the key for
+                            suppliers.
                         </ListItem>
                         <ListItem fontSize="lg">
                             Import the corresponding data from "categories.json"

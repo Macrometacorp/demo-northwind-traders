@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Flex, IconButton, Tooltip, Text } from "@chakra-ui/react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiChevronLeft, FiChevronsLeft, FiChevronRight, FiChevronsRight } from "react-icons/fi";
 
 export default function Pagination({
     currentPage,
@@ -15,6 +15,8 @@ export default function Pagination({
 
     const onPreviousPage = () => setCurrentPage(currentPage - 1);
     const onNextPage = () => setCurrentPage(currentPage + 1);
+    const onFirstPage = () => setCurrentPage(1);
+    const onLastPage = () => setCurrentPage(totalPages);
 
     useEffect(() => {
         if (currentPage === 1) {
@@ -33,6 +35,15 @@ export default function Pagination({
     return (
         <Flex mt={4} align="center" justify="space-between">
             <Flex>
+                <Tooltip label="First Page">
+                    <IconButton
+                        onClick={onFirstPage}
+                        isDisabled={!canGoBack}
+                        icon={<FiChevronsLeft />}
+                        colorScheme="gray"
+                        mr={3}
+                    />
+                </Tooltip>
                 <Tooltip label="Previous Page">
                     <IconButton
                         onClick={onPreviousPage}
@@ -47,6 +58,15 @@ export default function Pagination({
                         onClick={onNextPage}
                         isDisabled={!canGoNext}
                         icon={<FiChevronRight />}
+                        colorScheme="gray"
+                        mr={3}
+                    />
+                </Tooltip>
+                <Tooltip label="Last Page">
+                    <IconButton
+                        onClick={onLastPage}
+                        isDisabled={!canGoNext}
+                        icon={<FiChevronsRight />}
                         colorScheme="gray"
                         mr={3}
                     />

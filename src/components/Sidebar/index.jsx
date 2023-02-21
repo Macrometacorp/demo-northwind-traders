@@ -23,7 +23,7 @@ import {
     //FaShoppingCart,
     //FaIdBadge,
     //FaUserFriends,
-    FaSearch,
+    //FaSearch,
 } from "react-icons/fa";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ import { useContext } from "react";
 import authContext from "../../context/auth-context";
 import CustomModal from "../CustomModal";
 
-//todo: Modified because of Getting Started tutorial
+// todo: Modified because of Getting Started tutorial
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
     //{ name: "Dashboard", icon: FaTachometerAlt, path: "/dashboard" },
@@ -42,6 +42,8 @@ const LinkItems = [
     //{ name: "Orders", icon: FaShoppingCart, path: "/orders" },
     //{ name: "Employees", icon: FaIdBadge, path: "/employees" },
     //{ name: "Customers", icon: FaUserFriends, path: "/customers" },
+    // todo: Uncomment this line when you're ready to add the Search page
+    // todo: First step would be to create the Search view in Macrometa console
     //{ name: "Search", icon: FaSearch, path: "/search" },
 ];
 
