@@ -17,14 +17,7 @@ import {
 import {
     FaBars,
     FaHome,
-    //FaTachometerAlt,
-    //FaTruckLoading,
     FaBox,
-    //FaShoppingCart,
-    //FaIdBadge,
-    //FaUserFriends,
-    // todo: Uncomment this line when you're ready to add the Search page
-    //FaSearch,
 } from "react-icons/fa";
 import {
     BiLogOut,
@@ -41,15 +34,7 @@ import CustomModal from "../CustomModal";
 // todo: Modified because of Getting Started tutorial
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
-    //{ name: "Dashboard", icon: FaTachometerAlt, path: "/dashboard" },
-    //{ name: "Suppliers", icon: FaTruckLoading, path: "/suppliers" },
     { name: "Products", icon: FaBox, path: "/products" },
-    //{ name: "Orders", icon: FaShoppingCart, path: "/orders" },
-    //{ name: "Employees", icon: FaIdBadge, path: "/employees" },
-    //{ name: "Customers", icon: FaUserFriends, path: "/customers" },
-    // todo: Uncomment this line when you're ready to add the Search page
-    // todo: First step would be to create the Search view in Macrometa console
-    //{ name: "Search", icon: FaSearch, path: "/search" },
 ];
 
 export default function Sidebar({ children }) {

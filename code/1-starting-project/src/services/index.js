@@ -51,24 +51,6 @@ export async function deleteProductData(params, baseUrl, token) {
     return await invokeFunction("delete-product", params, baseUrl, token)
 }
 
-export async function getSuppliers({ page, pageSize }, baseUrl, token) {
-    const params = {
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-    };
-
-    return await invokeFunction("get-suppliers", params, baseUrl, token);
-}
-
-export async function getSupplierById(id, baseUrl, token) {
-    return await invokeFunction(
-        "get-supplier-info",
-        { key: id },
-        baseUrl,
-        token,
-    );
-}
-
 export async function getAllSuppliers(baseUrl, token) {
     return await invokeFunction("get-all-suppliers", "", baseUrl, token);
 }
@@ -93,64 +75,6 @@ export async function getProductById(id, baseUrl, token) {
         baseUrl,
         token,
     );
-}
-
-export async function getOrders({ page, pageSize }, baseUrl, token) {
-    const params = {
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-    };
-
-    return await invokeFunction("get-orders", params, baseUrl, token);
-}
-
-export async function getOrderById(id, baseUrl, token) {
-    return await invokeFunction(
-        "get-order-info",
-        { key: id },
-        baseUrl,
-        token);
-}
-
-export async function getCustomers({ page, pageSize }, baseUrl, token) {
-    const params = {
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-    };
-
-    return await invokeFunction("get-customers", params, baseUrl, token);
-}
-
-export async function getCustomerById(id, baseUrl, token) {
-    return await invokeFunction(
-        "get-customer-info",
-        { key: id },
-        baseUrl,
-        token,
-    );
-}
-
-export async function getEmployees({ page, pageSize }, baseUrl, token) {
-    const params = {
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-    };
-
-    return await invokeFunction("get-employees", params, baseUrl, token);
-}
-
-export async function getEmployeeById(id, baseUrl, token) {
-    return await invokeFunction(
-        "get-employee-info",
-        { key: id },
-        baseUrl,
-        token,
-    );
-}
-
-export async function runSearch(functionName, params, baseUrl, token) {
-    const data = await getQueryWorkerData(functionName, params, baseUrl, token);
-    return data.result;
 }
 
 export async function GetJwtToken(params, baseUrl) {

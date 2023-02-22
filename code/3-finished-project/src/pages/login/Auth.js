@@ -84,7 +84,7 @@ function Auth() {
                             />
                             {isError && (
                                 <FormErrorMessage>
-                                    Login Error! Status code: 500
+                                    Login Error! Please check your credentials. Status code: 500
                                 </FormErrorMessage>
                             )}
                         </FormControl>
