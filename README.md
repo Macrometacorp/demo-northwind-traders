@@ -116,7 +116,7 @@ Home page will be loaded automatically. If not, you can manually open it by clic
 To see product data, you can click on the `Products` link in the navigation bar. Since that page is protected, you will be redirected to the login page.
 To login, you can use your Macrometa credentials. If you don't have one, you can create a free account [here](https://play.macrometa.io/signup).
 
-### 📝 Adding Data to Macrometa Platform
+## 📝 Adding Data to Macrometa Platform
 If you navigate to the products page and find no data available, don't worry. 
 To add data, simply go to the `demo-northwind-traders/ExtraFiles/TestData` folder where you will find three files: `categories.json`, `products.json`, and `suppliers.json`. 
 Using the Macrometa console, you can easily import this data into the document store collections.
@@ -161,7 +161,7 @@ Small sample of the data is shown below:
 3. Repeat the same steps for the `categories.json` and `suppliers.json` files. (They contain smaller amount of data and are not shown here.)
 
 
-### 👷‍♀️👷Adding Query Workers
+## 👷‍♀️👷Adding Query Workers
 In `demo-northwind-traders/ExtraFiles/TestData` folder you will find ImportQueryWorkers.json file. You can use this file to import the query workers to the platform.
 You can use the Macrometa console to import the Query Workers to the document store collections.
 
