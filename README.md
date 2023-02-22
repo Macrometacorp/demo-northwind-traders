@@ -44,7 +44,7 @@ This last section is fully functional application that you can use to see how th
 ### Prerequisites
 
 1. Create a free [Macrometa account](https://auth-play.macrometa.io/sign-up)
-2. You will have to had **Node.js 18 (or later)** installed in your system. Run the following command in your CLI to check your Node.js version.
+2. You will have to have **Node.js 18 (or later)** installed in your system. Run the following command in your CLI to check your Node.js version.
 
 ```
 node -v
