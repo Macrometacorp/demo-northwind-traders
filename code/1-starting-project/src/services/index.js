@@ -95,18 +95,6 @@ export async function getProductById(id, baseUrl, token) {
     );
 }
 
-// export async function addProduct(data, baseUrl, token) {
-//     return await addProductData("products", data, baseUrl, token);
-// }
-//
-// export async function updateProduct(data, baseUrl, token) {
-//     return await updateProductData("products", data, key, baseUrl, token);
-// }
-//
-// export async function deleteProduct(key, baseUrl, token) {
-//     return await deleteProductData("products", key, baseUrl, token);
-// }
-
 export async function getOrders({ page, pageSize }, baseUrl, token) {
     const params = {
         offset: (page - 1) * pageSize,

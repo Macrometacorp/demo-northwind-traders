@@ -6,7 +6,7 @@
 
 This is a demo of the Northwind Traders dataset, running on Macrometa.
 
-![screenshot.png](screenshot.png)
+![screenshot.png](code/1-starting-project/screenshot.png)
 
 ## More Info
 
