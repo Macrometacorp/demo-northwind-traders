@@ -73,7 +73,7 @@ export function Customers() {
         };
 
         get().catch(console.error);
-    }, [currentPage, ctx.token]);
+    }, [currentPage, ctx.token, ctx.baseUrl, ]);
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
