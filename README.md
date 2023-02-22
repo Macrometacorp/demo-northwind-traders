@@ -20,7 +20,7 @@ Code folder is divided into three parts:
 
 You also find `/slides` folders which contains detailed step-by-step guide on how to build the demo application.
 
-`/extra-files` contains test data and query workers that you can use to import to the platform.
+`/extraFiles` contains test data and query workers that you can use to import to the platform.
 
 The best way to use this demo is to follow the steps in the slides or README.md and then use the code in the `1-starting-project` folder to start building the application.
 Any time you can skipp that step and use the code in the `2-adding-search` or `3-finished-project` folder to see the final result.
@@ -118,7 +118,7 @@ To login, you can use your Macrometa credentials. If you don't have one, you can
 
 ## 📝 Adding Data to Macrometa Platform
 If you navigate to the products page and find no data available, don't worry. 
-To add data, simply go to the `demo-northwind-traders/ExtraFiles/TestData` folder where you will find three files: `categories.json`, `products.json`, and `suppliers.json`. 
+To add data, simply go to the `demo-northwind-traders/extraFiles/TestData` folder where you will find three files: `categories.json`, `products.json`, and `suppliers.json`. 
 Using the Macrometa console, you can easily import this data into the document store collections.
 
 1. Create a new document collection called `products` on the platform.
