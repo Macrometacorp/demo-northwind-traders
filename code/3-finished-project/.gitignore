@@ -2,9 +2,6 @@
 
 # dependencies
 /node_modules
-/code/1-starting-project/node_modules
-/code/2-adding-search/node_modules
-/code/3-finished-project/node_modules
 /.pnp
 .pnp.js
 
@@ -12,13 +9,10 @@
 /coverage
 
 # production
-/code/1-starting-project/build
-/code/2-adding-search/build
-/code/3-finished-project/build
+/build
 
 # misc
 .DS_Store
-.env
 .env.local
 .env.development.local
 .env.test.local
