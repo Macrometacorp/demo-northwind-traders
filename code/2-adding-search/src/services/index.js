@@ -77,6 +77,11 @@ export async function getProductById(id, baseUrl, token) {
     );
 }
 
+export async function runSearch(functionName, params, baseUrl, token) {
+    const data = await getQueryWorkerData(functionName, params, baseUrl, token);
+    return data.result;
+}
+
 export async function GetJwtToken(params, baseUrl) {
     const response = await fetch(`${baseUrl}/_open/auth`, {
         method: "POST",

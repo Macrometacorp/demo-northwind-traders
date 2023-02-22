@@ -18,6 +18,7 @@ import {
     FaBars,
     FaHome,
     FaBox,
+    FaSearch,
 } from "react-icons/fa";
 import {
     BiLogOut,
@@ -35,6 +36,7 @@ import CustomModal from "../CustomModal";
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
     { name: "Products", icon: FaBox, path: "/products" },
+    { name: "Search", icon: FaSearch, path: "/search" },
 ];
 
 export default function Sidebar({ children }) {
