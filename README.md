@@ -4,7 +4,7 @@
 
 For decades, the Northwind Traders Access database has been celebrated as a prime illustration of a thorough sales database. 
 Originally included with the Microsoft Office suite in 1997, it has remained a valuable source of sample data. 
-Our demo application takes this iconic dataset to the next level by showcasing how it can be efficiently distributed across over 175 locations around the globe using the innovative architecture of Macrometa PaaS. 
+Our demo application takes this iconic dataset to the next level by showcasing how it can be efficiently distributed across over **175 locations** around the globe using the innovative architecture of **Macrometa PaaS**. 
 With our user-friendly, self-serve platform, you can experience firsthand the impressive potential that this cutting-edge technology unlocks for your own applications.
 
 ## ❓ How to use this demo
@@ -43,7 +43,8 @@ This last section is fully functional application that you can use to see how th
 
 ### Prerequisites
 
-You will have to had Node.js 18 (or later) installed in your system. Run the following command in your CLI to check your Node.js version.
+1. Create a free [Macrometa account](https://auth-play.macrometa.io/sign-up)
+2. You will have to had **Node.js 18 (or later)** installed in your system. Run the following command in your CLI to check your Node.js version.
 
 ```
 node -v
