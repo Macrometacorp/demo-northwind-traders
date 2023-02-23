@@ -69,9 +69,9 @@ depending on your GitHub authentication method.
 2. Please choose your preferred starting point from one of the following sections:
 
 
-1. **1-starting-project**
-2. **2-adding-search**
-3. **3-finished-project**
+- **1-starting-project**
+- **2-adding-search**
+- **3-finished-project**
 
 Change directory to your selected project with:
 
@@ -133,7 +133,6 @@ A collection is a group of documents with a unique name and identifier. For the 
 ![create-collection.png](photos/create-collection.png)
 
 2. Import the data from the `products.json` file into the `products` collection.
-
     1. On the side menu, click `Collections`.
     2. Select`products` collection.
     3. Click `Import documents from JSON file`.
