@@ -174,3 +174,60 @@ You can use the Macrometa console to import the Query Workers to the document st
 
 After the import is complete, you should see the query workers in the list. You can test Query Workers by selecting action `run` from actions menu.
 In the slides for this demo, you can find out how to create query workers by yourself.
+
+## 📡 Enabling Stream on the Collection
+At Macrometa every collection is a stream and every stream is a collection.
+To enable stream on the collection, you can use the Macrometa console:
+
+1. On the side menu, click `Collections`.
+2. Select `products` collection.
+3. Click `Enable Stream` button.
+
+![activate-stream.png](photos/activate-stream.png)
+
+On the frontend side we will use webhooks to subscribe to the stream and receive the data:
+```javascript
+const establishStreamConsumerConnection = async () => {
+        try {
+            const otpConsumer = await fetch(`${ctx.baseUrl}/apid/otp`, {
+                method: "POST",
+                headers: {
+                    Authorization: `bearer ${ctx.token}`,
+                    accept: "application/json",
+                },
+            });
+            const otp = await otpConsumer.json();
+            const consumerUrl = `wss://${ctx.baseUrl.replace(
+                "https://",
+                "",
+            )}/_ws/ws/v2/reader/persistent/${ctx.email.replace(
+                "@",
+                "_",
+            )}/c8local._system/products?otp=${otp.otp}`;
+            const consumer = new WebSocket(consumerUrl);
+            consumer.onmessage = (event) => {
+                // It is possible to get payload and messageId from the event.data
+                //const { payload, messageId } = JSON.parse(event.data);
+                setProductsListChange(true);
+                if (!toast.isActive(changeToastId)) {
+                    toast({
+                        id: changeToastId,
+                        title: "Products list updated.",
+                        position: "top-right",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                }
+            };
+        } catch (error) {
+            console.error("error", error);
+        }
+    };
+```
+
+## 🆘 Macrometa Support
+If you have any trouble or need help while using SDK please contact [product@macrometa.com](mailto:support@macrometa.com).
+
+## 📜 License
+This library is distributed under the MIT license found in the [LICENSE](LICENSE) file.
