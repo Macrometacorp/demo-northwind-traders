@@ -10,6 +10,7 @@ import Search from "./pages/Search";
 import { AuthContextProvider } from "./context/auth-context";
 import Auth from "./pages/login/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
+import {SupplierDetail, Suppliers} from "./pages/suppliers";
 
 export default function App() {
     return (

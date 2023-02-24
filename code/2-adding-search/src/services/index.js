@@ -116,6 +116,12 @@ export async function getSupplierById(id, baseUrl, token) {
     );
 }
 
+// This method is used to call Query Worker that will perform search
+export async function runSearch(functionName, params, baseUrl, token) {
+    const data = await getQueryWorkerData(functionName, params, baseUrl, token);
+    return data.result;
+}
+
 // This method is used for authentication with Macrometa platform
 // We are using JWT token for all of our Query worker API requests
 export async function GetJwtToken(params, baseUrl) {

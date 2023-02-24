@@ -20,7 +20,7 @@ export default function CustomModal(props) {
     return (
         <Box>
             {props.selectRegion && (
-                <Button leftIcon={<BiWorld />} variant="solid" onClick={onOpen}>
+                <Button width='160px' leftIcon={<BiWorld />} variant="solid" onClick={onOpen}>
                     {props.buttonTitle}
                 </Button>
             )}

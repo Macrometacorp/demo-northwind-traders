@@ -13,17 +13,18 @@ import {
     Stack,
     Spacer,
     Text,
+    useColorMode,
 } from "@chakra-ui/react";
 import {
     FaBars,
     FaHome,
-    //FaTachometerAlt,
     FaTruckLoading,
     FaBox,
     FaShoppingCart,
     FaIdBadge,
     FaUserFriends,
     FaSearch,
+    FaLightbulb
 } from "react-icons/fa";
 import {
     BiLogOut,
@@ -39,7 +40,6 @@ import CustomModal from "../CustomModal";
 
 const LinkItems = [
     { name: "Home", icon: FaHome, path: "/home" },
-    //{ name: "Dashboard", icon: FaTachometerAlt, path: "/dashboard" },
     { name: "Suppliers", icon: FaTruckLoading, path: "/suppliers" },
     { name: "Products", icon: FaBox, path: "/products" },
     { name: "Orders", icon: FaShoppingCart, path: "/orders" },
@@ -85,6 +85,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
     const ctx = useContext(authContext);
 
     const navigate = useNavigate();
+
+    const { colorMode, toggleColorMode } = useColorMode()
 
     const loginHandler = () => {
         navigate("/login");
@@ -148,6 +150,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
                                 justifyContent="center"
                                 width="100%"
                             >
+                                <Text as="b">Region: {ctx.regionName}</Text>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                width="100%"
+                            >
                                 <Flex
                                     minWidth="min-content"
                                     alignItems="left"
@@ -161,27 +171,30 @@ const SidebarContent = ({ onClose, ...rest }) => {
                                     />
                                 </Flex>
                             </Box>
+
                             <Box
                                 display="flex"
                                 alignItems="center"
                                 justifyContent="center"
                                 width="100%"
                             >
-                                <Text as="b">Region: {ctx.regionName}</Text>
-                            </Box>
-                            <Box
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                width="100%"
-                            >
-                                <Button leftIcon={<BiLogOut />} onClick={ctx.onLogout}>Log Out</Button>
+                                <Button width='160px' leftIcon={<BiLogOut />} onClick={ctx.onLogout}>Log Out</Button>
                             </Box>
                         </Stack>
                     </Box>
                 )}
             </Box>
             <Divider orientation="horizontal" />
+            <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width="100%"
+            >
+                <Button width='160px' leftIcon={<FaLightbulb />} onClick={toggleColorMode}>
+                    {colorMode === 'light' ? 'Dark' : 'Light'} Mode
+                </Button>
+            </Box>
         </Box>
     );
 };
