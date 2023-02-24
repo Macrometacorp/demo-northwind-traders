@@ -230,4 +230,4 @@ const establishStreamConsumerConnection = async () => {
 If you have any trouble or need help while using SDK please contact [product@macrometa.com](mailto:support@macrometa.com).
 
 ## 📜 License
-This library is distributed under the MIT license found in the [LICENSE](LICENSE) file.
+This library is distributed under the MIT license found in the [LICENSE](LICENSE.md) file.
