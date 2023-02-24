@@ -65,6 +65,26 @@ export default function App() {
                             </Sidebar>
                         }
                     />
+                    <Route
+                        path="/suppliers"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Suppliers />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/suppliers/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <SupplierDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
                 </Routes>
             </AuthContextProvider>
         </ChakraProvider>

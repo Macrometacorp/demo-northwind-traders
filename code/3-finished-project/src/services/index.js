@@ -1,22 +1,10 @@
 const FABRIC = process.env.REACT_APP_FABRIC_NAME;
 
-async function invokeFunction(functionName, params, baseUrl, token) {
-    const queryData = await getQueryWorkerData(
-        functionName,
-        params,
-        baseUrl,
-        token,
-    );
-    let data;
-    if (queryData.result.length === 1) {
-        data = queryData.result[0];
-    } else {
-        data = queryData.result;
-    }
-
-    return data;
-}
-
+// This is the only method/API call that we need to have to connect to the
+// backend of the application. (Macrometa platform)
+// Method calls specific Query Worker by Query Worker name.
+// Some of our Query Workers need to receive additional
+// parameters (bind variables) to add/get/update/delete specific data
 async function getQueryWorkerData(functionName, params, baseUrl, token) {
     const response = await fetch(
         `${baseUrl}/_fabric/${FABRIC}/_api/restql/execute/${functionName}`,
@@ -33,6 +21,27 @@ async function getQueryWorkerData(functionName, params, baseUrl, token) {
         },
     );
     return await response.json();
+}
+
+// This method is used to parse different results that we get from Query
+// Workers. Sometimes we have list of results in other cases we have
+// just one result. It depends on how query of Query Workers is written
+// It is possible to change Query Worker response in the Macrometa console
+async function invokeFunction(functionName, params, baseUrl, token) {
+    const queryData = await getQueryWorkerData(
+        functionName,
+        params,
+        baseUrl,
+        token,
+    );
+    let data;
+    if (queryData.result.length === 1) {
+        data = queryData.result[0];
+    } else {
+        data = queryData.result;
+    }
+
+    return data;
 }
 
 export async function addProductData(params, baseUrl, token) {
@@ -153,6 +162,8 @@ export async function runSearch(functionName, params, baseUrl, token) {
     return data.result;
 }
 
+// This method is used for authentication with Macrometa platform
+// We are using JWT token for all of our Query worker API requests
 export async function GetJwtToken(params, baseUrl) {
     const response = await fetch(`${baseUrl}/_open/auth`, {
         method: "POST",
@@ -164,6 +175,9 @@ export async function GetJwtToken(params, baseUrl) {
     return await response.json();
 }
 
+// This method allows us to switch from global URL to specific region on the
+// platform. By default, we are using GLOBAL url so any of the application
+// users will be automatically connected to the closest region
 export async function getRegions(tenant, baseUrl, token) {
     const response = await fetch(`${baseUrl}/datacenter/_tenant/${tenant}`, {
         method: "GET",

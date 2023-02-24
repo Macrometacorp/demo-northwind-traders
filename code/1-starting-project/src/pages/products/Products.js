@@ -100,6 +100,11 @@ export function Products() {
         setProductsListChange(false);
     };
 
+    // This method is called when the component/product page is mounted
+    // we are opening a websocket connection to the collection,
+    // and we are listening for changes
+    // To enable this feature we need to enable the stream in the collection
+    // We can go to the console and select the collection -> settings -> enable stream
     const establishStreamConsumerConnection = async () => {
         try {
             const otpConsumer = await fetch(`${ctx.baseUrl}/apid/otp`, {
@@ -240,6 +245,10 @@ export function Products() {
 
     useEffect(() => {
         const init = async () => {
+            // This method enables us to establish a connection with the products collection
+            // and listen for changes in the collection
+            // At Macrometa each collection can be a stream
+            // (Every collection is a stream and stream is a collection)
             await establishStreamConsumerConnection();
         };
         init().catch(console.error);

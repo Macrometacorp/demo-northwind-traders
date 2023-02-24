@@ -9,6 +9,7 @@ import { Products, ProductDetail } from "./pages/products";
 import { AuthContextProvider } from "./context/auth-context";
 import Auth from "./pages/login/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
+import {SupplierDetail, Suppliers} from "./pages/suppliers";
 
 export default function App() {
     return (
@@ -50,6 +51,26 @@ export default function App() {
                             <Sidebar>
                                 <ProtectedRoute>
                                     <ProductDetail />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/suppliers"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <Suppliers />
+                                </ProtectedRoute>
+                            </Sidebar>
+                        }
+                    />
+                    <Route
+                        path="/suppliers/:id"
+                        element={
+                            <Sidebar>
+                                <ProtectedRoute>
+                                    <SupplierDetail />
                                 </ProtectedRoute>
                             </Sidebar>
                         }
