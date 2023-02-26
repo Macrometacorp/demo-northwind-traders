@@ -35,6 +35,7 @@ In this part of the demo we want to show how easy it is to add search to your ap
 Application we are building is a simple e-commerce application. Any e-commerce application needs to have a search functionality.
 We are dealing with a large amount of data, and we want to make sure that our search is fast and efficient.
 With just a couple of search views and a couple of lines of code we can add search to our application.
+Please take a look at the slides or README.md to see how to create search window on Macrometa platform. ([Creating Search View](#creating-search-view))
 
 ### Section `3-finished-project`
 This last section is fully functional application that you can use to see how the application works.
@@ -225,6 +226,21 @@ const establishStreamConsumerConnection = async () => {
         }
     };
 ```
+
+## 🔍 Creating Search View
+Macrometa GDN Search is a full-text search engine that supports key values, documents, and graphs as data models.
+Search is customizable, combining Boolean and generalized ranking retrieval techniques to refine your search results.
+To create a search window, you can use the Macrometa console:
+
+1. On the side menu, click `Search Views`.
+2. Click `New View` on top of the screen.
+3. Type in the name of the view in the `Name` field.
+4. Select `products` collection in the `Collection` field.
+5. Select the data (collection field name) you want to search in the `Field` field.
+6. Select the analyzer you want to use in the `Analyzer` field.
+7. Click `Create` button.
+
+![search-view.png](photos/search-view.png)
 
 ## 🆘 Macrometa Support
 If you have any trouble or need help while using demo contact [product@macrometa.com](mailto:support@macrometa.com).
