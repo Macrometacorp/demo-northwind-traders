@@ -35,7 +35,7 @@ In this part of the demo we want to show how easy it is to add search to your ap
 Application we are building is a simple e-commerce application. Any e-commerce application needs to have a search functionality.
 We are dealing with a large amount of data, and we want to make sure that our search is fast and efficient.
 With just a couple of search views and a couple of lines of code we can add search to our application.
-Please take a look at the slides or README.md to see how to create search window on Macrometa platform. ([Creating Search View](#creating-search-view))
+Please take a look at the slides or README.md to see how to create search window on Macrometa platform.
 
 ### Section `3-finished-project`
 This last section is fully functional application that you can use to see how the application works.
