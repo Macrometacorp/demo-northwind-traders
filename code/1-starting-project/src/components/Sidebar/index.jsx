@@ -125,7 +125,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                         justifyContent="center"
                         width="100%"
                     >
-                        <Button leftIcon={<BiLogIn />} onClick={loginHandler}>Log In</Button>
+                        <Button width='160px' leftIcon={<BiLogIn />} onClick={loginHandler}>Log In</Button>
                     </Box>
                 ) : (
                     <Box
