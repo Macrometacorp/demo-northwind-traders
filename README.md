@@ -92,7 +92,6 @@ Here is how `.env.local` file should look like:
 ```
 REACT_APP_BASE_URL=https://play.paas.macrometa.io/
 REACT_APP_FABRIC_NAME=<your-fabric-name> (default: _system)
-REACT_APP_API_KEY=<your-api-key>
 ```
 
 **Note**: `.env.sample` is only a sample file that you can also use as a guide.
