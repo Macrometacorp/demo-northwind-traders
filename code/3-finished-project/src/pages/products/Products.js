@@ -3,18 +3,12 @@ import { Link } from "react-router-dom";
 import {
     Box,
     Button,
-    Flex,
-    ListItem,
-    OrderedList,
-    Spacer,
+    Spinner,
     Stack,
     Text,
     useColorModeValue,
     useToast,
 } from "@chakra-ui/react";
-
-import MyTable from "../../components/MyTable";
-import Pagination from "../../components/Pagination";
 
 import {
     addProductData,
@@ -26,6 +20,8 @@ import {
 } from "../../services";
 import authContext from "../../context/auth-context";
 import CustomModal from "../../components/CustomModal";
+import {DataView} from "./DataView";
+import {Instructions} from "./Instructions";
 
 function getProductDataInstance(data) {
     return {
@@ -47,6 +43,7 @@ export function Products() {
     const [suppliers, setSuppliers] = useState([]);
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isReady, setIsReady] = useState(false);
     const pageSize = 10;
 
     const [products, setProducts] = useState({
@@ -100,6 +97,11 @@ export function Products() {
         setProductsListChange(false);
     };
 
+    // This method is called when the component/product page is mounted
+    // we are opening a websocket connection to the collection,
+    // and we are listening for changes
+    // To enable this feature we need to enable the stream in the collection
+    // We can go to the console and select the collection -> settings -> enable stream
     const establishStreamConsumerConnection = async () => {
         try {
             const otpConsumer = await fetch(`${ctx.baseUrl}/apid/otp`, {
@@ -137,6 +139,11 @@ export function Products() {
             console.error("error", error);
         }
     };
+
+    const onApiRequestError = () => {
+        console.error("Api request error");
+        setIsReady(true)
+    }
 
     const columns = useMemo(
         () => [
@@ -233,13 +240,18 @@ export function Products() {
                 ctx.token,
             );
             setProducts(_products);
+            setIsReady(true);
         };
-        get().catch(console.error);
+        get().catch(onApiRequestError);
         setProductsListChange(false);
     }, [currentPage, productsListChange, ctx.baseUrl, ctx.token]);
 
     useEffect(() => {
         const init = async () => {
+            // This method enables us to establish a connection with the products collection
+            // and listen for changes in the collection
+            // At Macrometa each collection can be a stream
+            // (Every collection is a stream and stream is a collection)
             await establishStreamConsumerConnection();
         };
         init().catch(console.error);
@@ -248,77 +260,25 @@ export function Products() {
 
     return (
         <Box p="6" bg={useColorModeValue("white", "gray.800")} rounded="lg">
-            {products.totalDocuments > 0 && (
-                <Box>
-                    <Flex minWidth="min-content" alignItems="left" gap="1">
-                        <Spacer />
-                        <CustomModal
-                            productForm={true}
-                            onSave={onSaveProductData}
-                            buttonTitle={"Add Product"}
-                            modalTitle={"Add Product"}
-                            categories={categories}
-                            suppliers={suppliers}
-                        />
-                    </Flex>
-                    <MyTable
-                        title="Products"
-                        columns={columns}
-                        data={products.data}
-                    />
-                    <Pagination
+            {!isReady ? (
+                    <Spinner />
+                ) :
+                products.totalDocuments > 0 ? (
+                    <DataView
+                        onSaveProductData={onSaveProductData}
+                        products={products}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
-                        totalItems={products.totalDocuments}
-                        ItemsPerPage={pageSize}
+                        pageSize={pageSize}
+                        categories={categories}
+                        suppliers={suppliers}
+                        columns={columns}
                     />
-                </Box>
-            )}
-            {products.totalDocuments === 0 && (
-                <Box>
-                    <Text fontSize="lg" as="b">
-                        No products found ! We apologize, but it seems that no
-                        products have been found in the Macrometa GDN. 😓
-                    </Text>
-                    <Text fontSize="lg" my={4}>
-                        To populate the GDN, please follow these steps:
-                    </Text>
-                    <OrderedList spacing={3} my={4}>
-                        <ListItem fontSize="lg">
-                            Create a new document store collection called
-                            "products.".
-                        </ListItem>
-                        <ListItem fontSize="lg">
-                            Import the data from the "products.json" file
-                            located in the `ExtraFiles` folder in this project
-                            into the newly created collection. Before you
-                            confirm make sure you select `ProductID` as the key.
-                        </ListItem>
-                        <ListItem fontSize="lg">
-                            Create additional document store collections for
-                            "categories" and "suppliers."
-                        </ListItem>
-                        <ListItem fontSize="lg">
-                            Import categories.json and suppliers.json files
-                            located in the `ExtraFiles` folder in this project
-                            to the created collections. Before you confirm make
-                            sure you select `CategoryID` as the key for
-                            categories and `SupplierID` as the key for
-                            suppliers.
-                        </ListItem>
-                        <ListItem fontSize="lg">
-                            Import the corresponding data from "categories.json"
-                            and "suppliers.json" into their respective
-                            collections.
-                        </ListItem>
-                        <ListItem fontSize="lg">
-                            Finally, navigate to the Query Workers section and
-                            import the queries from "ImportQueryWorker.json" to
-                            begin querying the GDN."
-                        </ListItem>
-                    </OrderedList>
-                </Box>
-            )}
+                ) : (
+                    <Instructions />
+                )}
         </Box>
     );
 }
+
+
