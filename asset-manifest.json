@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/demo-northwind-traders/static/css/main.e6c13ad2.css",
-    "main.js": "/demo-northwind-traders/static/js/main.c20c2cfa.js",
+    "main.js": "/demo-northwind-traders/static/js/main.ba0961b7.js",
     "static/js/787.5caf28dc.chunk.js": "/demo-northwind-traders/static/js/787.5caf28dc.chunk.js",
     "static/media/northwind-traders.png": "/demo-northwind-traders/static/media/northwind-traders.6c9d6b32c81503fe262f.png",
     "index.html": "/demo-northwind-traders/index.html",
     "main.e6c13ad2.css.map": "/demo-northwind-traders/static/css/main.e6c13ad2.css.map",
-    "main.c20c2cfa.js.map": "/demo-northwind-traders/static/js/main.c20c2cfa.js.map",
+    "main.ba0961b7.js.map": "/demo-northwind-traders/static/js/main.ba0961b7.js.map",
     "787.5caf28dc.chunk.js.map": "/demo-northwind-traders/static/js/787.5caf28dc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.c20c2cfa.js"
+    "static/js/main.ba0961b7.js"
   ]
 }
