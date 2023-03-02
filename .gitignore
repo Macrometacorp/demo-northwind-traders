@@ -6,6 +6,7 @@
 /code/2-adding-search/node_modules
 /.pnp
 .pnp.js
+/build
 
 # testing
 /coverage
