@@ -4,7 +4,6 @@
 /node_modules
 /code/1-starting-project/node_modules
 /code/2-adding-search/node_modules
-/code/3-finished-project/node_modules
 /.pnp
 .pnp.js
 
